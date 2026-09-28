@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "audit": "Final Submission Audit — Signalpost",
+    "timestamp": "2026-09-28T05:20:00Z",
+    "status": "READY_FOR_FINAL_COMMIT",
+    "baseline_phases_included": [
+      "Phase 18 (Detailed Financial Metrics)",
+      "Phase 19 (Governance & Roles)",
+      "Phase 21 (Structured Addresses, Contact Channels & Registration Dates)",
+      "Phase 22 (Share Capital & Equity Registration Metadata)",
+      "Phase 23 (Statutory Purpose, Operational Activity, MVA/VAT & Audit Metadata)"
+    ]
+  },
+  "section_1_repository_state": {
+    "repository_root": "signalpost-starter-kit",
+    "directories": {
+      "src/norway_company_agent": 25,
+      "scripts": 27,
+      "tests": 14,
+      "tests/fixtures": 13,
+      "docs": 6,
+      "data": 1,
+      "out": 205,
+      "scratch": 56
+    },
+    "git_initialized": false,
+    "temporary_tmp_files_in_out": 0
+  },
+  "section_2_installation_result": {
+    "command": "uv sync",
+    "python_version_tested": "3.13.11 (requires-python >=3.12)",
+    "uv_version": "0.12.17",
+    "resolved_packages": 111,
+    "checked_packages": 41,
+    "first_run_smoke_test": "PASSED (out/refresh-demo.json: 2 true positives, 0 false positives, idempotent rerun)",
+    "status": "PASS"
+  },
+  "section_3_dependency_audit": {
+    "declared_dependencies": [
+      "beautifulsoup4>=4.14,<5",
+      "extruct>=0.18,<1",
+      "lxml>=6,<7",
+      "pydantic>=2.12,<3",
+      "pypdf>=6,<7",
+      "tldextract>=5.3,<6",
+      "trafilatura>=2.0,<3"
+    ],
+    "optional_dependencies": {
+      "crawler": [
+        "scrapy>=2.13,<3",
+        "scrapy-playwright>=0.0.44,<1"
+      ],
+      "sentiment": [
+        "accelerate>=1.10,<2",
+        "torch>=2.5,<3",
+        "transformers>=4.51,<5"
+      ]
+    },
+    "production_imports_in_src": [
+      "bs4 (beautifulsoup4)",
+      "extruct",
+      "tldextract",
+      "trafilatura"
+    ],
+    "undeclared_production_imports": [],
+    "lockfile_present": "uv.lock",
+    "status": "PASS"
+  },
+  "section_4_exact_production_command": {
+    "portable_single_line_1000_resume": "uv run python scripts/run_competition_batch.py --organisations entry-companies.jsonl --bulk brreg-enheter.csv --subunits-bulk brreg-underenheter.csv --profiles-output out/profiles.jsonl --output out/envelopes.jsonl --report out/run-report.json --run-id local-001 --expected-count 1000 --resume",
+    "portable_single_line_100_daily_eval": "uv run python scripts/run_competition_batch.py --organisations <batch-100.jsonl> --bulk brreg-enheter.csv --subunits-bulk brreg-underenheter.csv --profiles-output out/eval-100-profiles.jsonl --output out/eval-100-envelopes.jsonl --report out/eval-100-report.json --run-id eval-100 --expected-count 100",
+    "portable_single_line_refresh_replay": "uv run python scripts/run_refresh_replay.py --manifest tests/fixtures/refresh-snapshots.json --output out/refresh-test.json",
+    "powershell_multiline_1000_resume": "uv run python scripts/run_competition_batch.py `\n  --organisations entry-companies.jsonl `\n  --bulk brreg-enheter.csv `\n  --subunits-bulk brreg-underenheter.csv `\n  --profiles-output out/profiles.jsonl `\n  --output out/envelopes.jsonl `\n  --report out/run-report.json `\n  --run-id local-001 `\n  --expected-count 1000 `\n  --resume",
+    "depends_on_antigravity": false,
+    "depends_on_absolute_local_paths": false,
+    "status": "PASS"
+  },
+  "section_5_1000_corpus_integrity": {
+    "input_organisations": 1000,
+    "unique_input_organisations": 1000,
+    "profiles_count": 1000,
+    "envelopes_count": 1000,
+    "exact_ordered_org_alignment": true,
+    "silent_drops": 0,
+    "duplicate_profiles": 0,
+    "duplicate_envelopes": 0,
+    "phase18_financials": {
+      "companies": 997,
+      "facts": 9651
+    },
+    "phase19_roles": {
+      "companies": 1000,
+      "role_records": 4019
+    },
+    "phase21_addresses_contact_dates": {
+      "business_address": 998,
+      "postal_address": 246,
+      "official_email": 242,
+      "official_phone": 182,
+      "official_mobile": 182,
+      "registration_date": 1000,
+      "foundation_date": 991,
+      "articles_date": 967,
+      "foretaksregisteret_date": 974,
+      "foretaksregisteret_registered": 1000
+    },
+    "phase22_capital": {
+      "companies": 938,
+      "core_facts": 4671,
+      "total_facts": 4698
+    },
+    "phase23_purpose_vat_audit": {
+      "purpose_activity_companies": 997,
+      "statutory_purpose": 963,
+      "operational_activity": 997,
+      "purpose_activity_facts": 1960,
+      "vat_companies": 1000,
+      "vat_facts": 2202,
+      "audit_companies": 636,
+      "audit_facts": 1072,
+      "total_phase23_facts": 5234
+    },
+    "csv_shifted_rows_protected": [
+      "998600421",
+      "914882036",
+      "926768026"
+    ],
+    "status": "PASS"
+  },
+  "section_6_artifact_hashes": {
+    "entry-companies.jsonl": {
+      "size_bytes": 319526,
+      "sha256": "1dd834b29f7d97b689fb222399ef9d713ffa9f3dc20a94a824da07012d68d408"
+    },
+    "out/profiles.jsonl": {
+      "size_bytes": 20040151,
+      "sha256": "c2e1aa0382b6a5c0f9e0f01f3b0d91f18dc06e393517645eb0acdf17227cdd0e"
+    },
+    "out/envelopes.jsonl": {
+      "size_bytes": 20916240,
+      "sha256": "894b8f4e47f91fa3098edb516e6668fb21bf5fdaa0f4658bb5b8fe058192f0c8"
+    },
+    "out/run-report.json": {
+      "size_bytes": 1359,
+      "sha256": "939bdba56c408a525059010dfca89c50c2a129acbe5df12d667e8e213f6198ba"
+    },
+    "out/refresh-test.json": {
+      "size_bytes": 2551,
+      "sha256": "04b2adf2e813c8a46cdbbc1e8b389b1813e64fff3031ebfeec6f968bd51f77e7"
+    },
+    "out/phase17-external-combined.jsonl": {
+      "size_bytes": 486121,
+      "sha256": "206035caba405e192cfffea44a423cd9f96a0dc5c91051259500b09f90b23a3f"
+    },
+    "out/phase17-external-report.json": {
+      "size_bytes": 1092,
+      "sha256": "ddf1085dccd93676a9f105b4a6894f701a9c70814e54b5103996b97b8e798933"
+    },
+    "out/phase23-competition-v3-score.json": {
+      "size_bytes": 1825,
+      "sha256": "7494e94eba6411c93bbcc3614b6f8b1afd8246f963b2fdfac91280d670be3af2"
+    },
+    "out/phase23-purpose-vat-audit-report.json": {
+      "size_bytes": 9813,
+      "sha256": "4125dd52b508e9dcf1e42345a5879021f16ab8a05481102386da9d54f91b827a"
+    }
+  },
+  "section_7_determinism": {
+    "idempotent_profile_replay": true,
+    "stable_ordering": true,
+    "random_identifiers_present": false,
+    "machine_specific_paths_in_outputs": false,
+    "status": "PASS"
+  },
+  "section_8_refresh_idempotency": {
+    "expected_changes": 2,
+    "observed_changes": 2,
+    "true_positive": 2,
+    "false_positive": 0,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "evidence_complete": true,
+    "idempotent_rerun": true,
+    "qualification_passed": true,
+    "status": "PASS"
+  },
+  "section_9_terminal_validation": {
+    "passed": true,
+    "exact_expected_count": true,
+    "unique_organisation_numbers": true,
+    "all_entity_states_terminal": true,
+    "all_module_states_terminal": true,
+    "zero_silent_drops": true,
+    "invalid_states": [],
+    "status": "PASS"
+  },
+  "section_10_identity_safety": {
+    "wrong_company_publications": 0,
+    "unsupported_external_claims": 0,
+    "published_external_observations_audited": 441,
+    "registered_website_requires_identity_validation": true,
+    "email_domain_fallback_requires_identity_validation": true,
+    "guessed_candidate_domains_use_candidate_gate": true,
+    "uncertain_matches_quarantined": true,
+    "status": "PASS"
+  },
+  "section_11_source_rights_audit": {
+    "production_acquisition_modes": [
+      "official_api",
+      "permitted_public_page"
+    ],
+    "production_rights_status": [
+      "approved"
+    ],
+    "experimental_modes_in_production_outputs": 0,
+    "quarantined_experimental_scripts_excluded_from_batch": [
+      "scripts/run_google_news_rss_connector.py",
+      "scripts/run_linkedin_guest_experiment.py",
+      "scripts/run_linkedin_guest_jobs_connector.py",
+      "scripts/run_fagfolkguiden_reviews_connector.py",
+      "scripts/run_youtube_search_connector.py",
+      "scripts/normalize_google_maps_results.py"
+    ],
+    "status": "PASS"
+  },
+  "section_12_test_results": {
+    "total_test_modules": 14,
+    "active_phase_and_safety_test_modules": 13,
+    "active_tests_passed": "74/74",
+    "test_poc_passed": "104/104",
+    "full_unittest_discovery_total": "178/178 passed",
+    "failures": 0,
+    "errors": 0,
+    "local_competition_proxy_v3_score": {
+      "value": 56.869,
+      "max": 100.0,
+      "scorer": "signalpost_external_first_competition_proxy_v3",
+      "terminology": "Local Competition Proxy V3 / Local Diagnostic Score",
+      "official_builderr_evaluator_result": false,
+      "qualification_passed": true
+    },
+    "status": "PASS"
+  },
+  "section_13_readme_documentation_audit": {
+    "readme_updated": true,
+    "exaggerated_claims_present": false,
+    "commands_verified": true,
+    "status": "PASS"
+  },
+  "section_14_git_status": {
+    "git_repository_initialized": false,
+    "secrets_found": 0,
+    "env_or_key_files_found": 0,
+    "local_paths_in_production_or_outputs": 0,
+    "local_paths_in_scratch_only": [
+      "scratch/read_prompt.py",
+      "scratch/search_transcripts.py"
+    ],
+    "status": "PASS"
+  },
+  "section_18_daily_100_company_compatibility": {
+    "supports_100_company_batch": true,
+    "default_expected_count_arg": 100,
+    "measured_100_company_requests_range": "318 to 684 requests (limit: 2,000)",
+    "measured_100_company_runtime_range": "1.5 to 3.5 minutes (limit: 45 minutes)",
+    "declared_third_party_cost_usd": 0.0,
+    "status": "PASS"
+  },
+  "section_19_final_readiness_gate": {
+    "installation": "PASS",
+    "dependency_declaration": "PASS",
+    "production_command": "PASS",
+    "1000_input_corpus": "PASS",
+    "1000_profiles": "PASS",
+    "1000_envelopes": "PASS",
+    "exact_organisation_number_alignment": "PASS",
+    "terminal_validation": "PASS",
+    "refresh_replay": "PASS",
+    "deterministic_replay": "PASS",
+    "identity_safety": "PASS",
+    "wrong_company_eq_0": "PASS",
+    "unsupported_claims_eq_0": "PASS",
+    "source_rights_compliance": "PASS",
+    "no_production_experimental_connectors": "PASS",
+    "no_secrets": "PASS",
+    "no_temporary_artifacts_in_submission_set": "PASS",
+    "readme_accuracy": "PASS",
+    "reproducibility": "PASS",
+    "git_cleanliness": "PASS",
+    "final_submission_metadata": "PASS",
+    "daily_100_company_compatibility": "PASS"
+  },
+  "final_status": "READY_FOR_FINAL_COMMIT"
+}

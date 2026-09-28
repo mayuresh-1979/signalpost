@@ -1,0 +1,48 @@
+{
+  "run_id": "local-001",
+  "started_at": "2026-09-28T05:07:48.276871Z",
+  "completed_at": "2026-09-28T05:08:16.277044Z",
+  "expected_count": 1000,
+  "emitted_envelopes": 1000,
+  "resumed_profiles": 1000,
+  "profiles_fetched_this_run": 0,
+  "modules": [
+    "registry",
+    "accounting_obligation",
+    "registry_live",
+    "financials",
+    "roles",
+    "locations",
+    "website"
+  ],
+  "registry": {
+    "registry_snapshot_sha256": "2b45e690625a82d90efd9b44536e66fbaee2b79dd804fe3d6fb9432430774f01",
+    "registry_rows_scanned": 1173530,
+    "requested": 1000,
+    "selected": 1000
+  },
+  "subunits": {
+    "subunits_snapshot_sha256": "365014c5ce18651cfb049fd83f08ce714212a1d50bfc78dd1c4c1f76e78de5a5",
+    "subunits_rows_scanned": 864903,
+    "subunits_matched": 876,
+    "retrieved_at": "2026-09-28T05:08:09.216319Z",
+    "source_url": "https://data.brreg.no/enhetsregisteret/api/underenheter/lastned/csv"
+  },
+  "operations": {
+    "requests": 6121,
+    "bytes": 103662028,
+    "p50_ms": 848,
+    "p95_ms": 1379
+  },
+  "validation": {
+    "passed": true,
+    "checks": {
+      "exact_expected_count": true,
+      "unique_organisation_numbers": true,
+      "all_entity_states_terminal": true,
+      "all_module_states_terminal": true,
+      "zero_silent_drops": true
+    },
+    "invalid_states": []
+  }
+}

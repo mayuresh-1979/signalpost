@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "phase": "Phase 23",
+    "task": "Emit Statutory Purpose, Operational Activity, VAT/MVA & Audit Metadata",
+    "timestamp": "2026-09-28T05:09:00Z",
+    "status": "completed",
+    "mode": "zero_network_evidence_propagation"
+  },
+  "files_changed": [
+    "src/norway_company_agent/purpose_vat_audit_emission.py",
+    "src/norway_company_agent/__init__.py",
+    "scripts/run_competition_batch.py",
+    "tests/test_purpose_vat_audit_emission.py",
+    "out/profiles.jsonl",
+    "out/envelopes.jsonl",
+    "out/run-report.json",
+    "out/refresh-test.json",
+    "out/phase23-competition-v3-score.json",
+    "out/phase23-purpose-vat-audit-report.json",
+    "out/phase23-purpose-vat-audit-report.md"
+  ],
+  "corpus_summary": {
+    "total_profiles": 1000,
+    "total_envelopes": 1000,
+    "unique_organisation_numbers": 1000,
+    "silent_drops": 0,
+    "duplicate_organisation_numbers": 0
+  },
+  "coverage_summary": {
+    "purpose_activity": {
+      "companies_with_structured_purpose_activity_before": 0,
+      "companies_with_structured_purpose_activity_after": 997,
+      "companies_excluded_by_csv_shift_guard": 3,
+      "statutory_purpose": {
+        "companies_before": 0,
+        "companies_after": 963,
+        "coverage_pct": 96.3,
+        "missing_or_excluded_companies": 37,
+        "facts_emitted": 963,
+        "source_evidence_path": "profile.evidence.registry.value.vedtektsfestetFormaal",
+        "structured_field": "profile.purpose_activity.statutory_purpose",
+        "top_level_convenience_field": "profile.statutory_purpose"
+      },
+      "operational_activity": {
+        "companies_before": 0,
+        "companies_after": 997,
+        "coverage_pct": 99.7,
+        "missing_or_excluded_companies": 3,
+        "facts_emitted": 997,
+        "source_evidence_path": "profile.evidence.registry.value.aktivitet",
+        "structured_field": "profile.purpose_activity.operational_activity",
+        "top_level_convenience_field": "profile.operational_activity"
+      },
+      "total_purpose_activity_facts_emitted": 1960
+    },
+    "vat_mva": {
+      "companies_with_structured_vat_before": 0,
+      "companies_with_structured_vat_after": 1000,
+      "vat_registered": {
+        "companies_before": 0,
+        "companies_after": 1000,
+        "coverage_pct": 100.0,
+        "true_count": 507,
+        "false_count": 493,
+        "missing_companies": 0,
+        "facts_emitted": 1000,
+        "source_evidence_path": "profile.evidence.registry.value.registrertIMvaRegisteret",
+        "structured_field": "profile.vat.registered",
+        "top_level_convenience_field": "profile.vat_registered"
+      },
+      "vat_registered_date": {
+        "companies_before": 0,
+        "companies_after": 507,
+        "coverage_pct": 50.7,
+        "missing_companies": 493,
+        "facts_emitted": 507,
+        "source_evidence_path": "profile.evidence.registry.value.registreringsdatoMerverdiavgiftsregisteret",
+        "structured_field": "profile.vat.registered_date",
+        "top_level_convenience_field": "profile.vat_registered_date"
+      },
+      "vat_enhetsregisteret_registered_date": {
+        "companies_before": 0,
+        "companies_after": 507,
+        "coverage_pct": 50.7,
+        "missing_companies": 493,
+        "facts_emitted": 507,
+        "source_evidence_path": "profile.evidence.registry.value.registreringsdatoMerverdiavgiftsregisteretEnhetsregisteret",
+        "structured_field": "profile.vat.enhetsregisteret_registered_date",
+        "top_level_convenience_field": "profile.vat_enhetsregisteret_registered_date"
+      },
+      "vat_voluntary_descriptions": {
+        "companies_before": 0,
+        "companies_after": 94,
+        "coverage_pct": 9.4,
+        "missing_companies": 906,
+        "facts_emitted": 94,
+        "value_distribution": {
+          "Utleier av bygg eller anlegg": 94
+        },
+        "source_evidence_path": "profile.evidence.registry.value.frivilligMvaRegistrertBeskrivelser",
+        "structured_field": "profile.vat.voluntary_descriptions",
+        "top_level_convenience_field": "profile.vat_voluntary_descriptions"
+      },
+      "vat_voluntary_registered_date": {
+        "companies_before": 0,
+        "companies_after": 94,
+        "coverage_pct": 9.4,
+        "missing_companies": 906,
+        "facts_emitted": 94,
+        "source_evidence_path": "profile.evidence.registry.value.registreringsdatoFrivilligMerverdiavgiftsregisteret",
+        "structured_field": "profile.vat.voluntary_registered_date",
+        "top_level_convenience_field": "profile.vat_voluntary_registered_date"
+      },
+      "total_vat_facts_emitted": 2202
+    },
+    "audit_exemption_metadata": {
+      "companies_with_structured_audit_before": 0,
+      "companies_with_structured_audit_after": 636,
+      "companies_excluded_by_csv_shift_guard": 3,
+      "audit_exemption_status_boolean_in_brreg_bulk": "not_present_in_brreg_schema (no boolean column exists; only explicit exemption and decision dates are emitted without inferring a boolean)",
+      "audit_exemption_date": {
+        "companies_before": 0,
+        "companies_after": 636,
+        "coverage_pct": 63.6,
+        "missing_or_excluded_companies": 364,
+        "facts_emitted": 636,
+        "source_evidence_path": "profile.evidence.registry.value.fravalgRevisjonDato",
+        "structured_field": "profile.audit.exemption_date",
+        "top_level_convenience_field": "profile.audit_exemption_date"
+      },
+      "audit_decision_date": {
+        "companies_before": 0,
+        "companies_after": 436,
+        "coverage_pct": 43.6,
+        "missing_or_excluded_companies": 564,
+        "facts_emitted": 436,
+        "source_evidence_path": "profile.evidence.registry.value.fravalgRevisjonBeslutningsDato",
+        "structured_field": "profile.audit.decision_date",
+        "top_level_convenience_field": "profile.audit_decision_date"
+      },
+      "total_audit_facts_emitted": 1072
+    },
+    "totals": {
+      "total_phase23_facts_emitted": 5234,
+      "companies_covered_any_phase23_field": 1000
+    }
+  },
+  "csv_quote_shift_guard": {
+    "companies_excluded_from_columns_64_plus": 3,
+    "excluded_organisation_numbers": [
+      "998600421",
+      "914882036",
+      "926768026"
+    ],
+    "blocked_fields_on_shifted_rows": [
+      "vedtektsfestetFormaal (col 64)",
+      "aktivitet (col 65)",
+      "fravalgRevisjonDato (col 69)",
+      "fravalgRevisjonBeslutningsDato (col 70)"
+    ],
+    "pre_column_64_mva_fields": "MVA columns (cols 39-43) precede column 64 by >20 columns and remain unshifted across all 1,000 companies while still passing strict boolean/date/description validation.",
+    "corrupted_shifted_values_emitted": 0
+  },
+  "data_quality_findings": [
+    {
+      "finding": "No boolean audit-exemption column in BRREG bulk schema",
+      "details": "BRREG's enheter CSV provides two explicit audit-exemption date columns (fravalgRevisjonDato at col 69 and fravalgRevisjonBeslutningsDato at col 70), plus tvangsopplostPgaManglendeRevisorDato at col 57 (0 non-empty in corpus), but no boolean fravalgRevisjon column. All 436 companies with fravalgRevisjonBeslutningsDato are a strict subset of the 636 companies with fravalgRevisjonDato. No boolean exemption status is inferred."
+    },
+    {
+      "finding": "Exact 1-to-1 correspondence between voluntary MVA description and voluntary MVA date",
+      "details": "All 94 companies with frivilligMvaRegistrertBeskrivelser ('Utleier av bygg eller anlegg') are the exact same 94 companies with registreringsdatoFrivilligMerverdiavgiftsregisteret, and all 94 are registered in MVA (registrertIMvaRegisteret == 'true')."
+    },
+    {
+      "finding": "CSV quote-shift originates directly inside columns 64 (vedtektsfestetFormaal) and 65 (aktivitet)",
+      "details": "On 998600421, 914882036, and 926768026, unescaped quotes and commas inside vedtektsfestetFormaal/aktivitet split those strings across columns 64..79. On 914882036, fravalgRevisjonDato (col 69) and fravalgRevisjonBeslutningsDato (col 70) held fragments of purpose text, while on 998600421 fravalgRevisjonDato held 'false'. Row-level is_csv_quote_shifted blocked all 3 rows."
+    }
+  ],
+  "operations_and_resources": {
+    "network_requests_emitted": 0,
+    "outbound_bytes_emitted": 0,
+    "third_party_api_cost_usd": 0.0,
+    "profiles_fetched_this_run": 0,
+    "resumed_profiles": 1000,
+    "runtime_seconds": 28.0
+  },
+  "validation_and_regression": {
+    "phase23_unit_tests": "6/6 passed",
+    "all_phase_regression_suites": "70/70 passed across 11 test modules",
+    "phase18_financials": {
+      "companies": 997,
+      "facts": 9651,
+      "unchanged": true
+    },
+    "phase19_roles": {
+      "companies": 1000,
+      "role_records": 4019,
+      "unchanged": true
+    },
+    "phase21_contact_and_registration": {
+      "business_address": 998,
+      "postal_address": 246,
+      "official_email": 242,
+      "official_phone": 182,
+      "official_mobile": 182,
+      "registration_date": 1000,
+      "foundation_date": 991,
+      "articles_date": 967,
+      "foretaksregisteret_date": 974,
+      "foretaksregisteret_registered": 1000,
+      "unchanged": true
+    },
+    "phase22_capital": {
+      "companies": 938,
+      "core_facts": 4671,
+      "total_facts": 4698,
+      "unchanged": true
+    },
+    "workforce_website_external_unchanged": true,
+    "terminal_validation_passed": true,
+    "refresh_replay_passed": true,
+    "deterministic_idempotent_replay_passed": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0
+  },
+  "scoring_evaluation": {
+    "scorer": "signalpost_external_first_competition_proxy_v3",
+    "score_before": 56.869,
+    "score_after": 56.869,
+    "difference": 0.0,
+    "local_score_status": "local score unchanged",
+    "all_qualification_gates_passed": true,
+    "decision": "ACCEPT Phase 23"
+  }
+}

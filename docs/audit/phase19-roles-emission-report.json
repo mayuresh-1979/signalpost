@@ -1,0 +1,128 @@
+{
+  "metadata": {
+    "phase": "Phase 19",
+    "task": "Emit Governance & Roles from Retained Evidence",
+    "timestamp": "2026-09-24T18:15:00+00:00",
+    "status": "completed"
+  },
+  "corpus_summary": {
+    "total_profiles": 1000,
+    "total_envelopes": 1000,
+    "unique_organisation_numbers": 1000,
+    "silent_drops": 0,
+    "duplicate_organisation_numbers": 0
+  },
+  "roles_evidence_comparison": {
+    "companies_with_role_evidence_before": 1000,
+    "companies_with_role_evidence_after": 1000,
+    "companies_with_missing_roles": 0,
+    "total_role_records_before_at_top_level": 0,
+    "total_role_records_emitted": 4019,
+    "net_role_records_gained_at_top_level": 4019
+  },
+  "roles_coverage_by_category": {
+    "canonical_roles_list_companies": 1000,
+    "board_chair_LEDE": {
+      "companies": 986,
+      "coverage_pct": 98.6,
+      "records_emitted": 986
+    },
+    "managing_director_DAGL": {
+      "companies": 648,
+      "coverage_pct": 64.8,
+      "records_emitted": 650
+    },
+    "board_members_MEDL": {
+      "companies": 490,
+      "coverage_pct": 49.0,
+      "records_emitted": 963
+    },
+    "authorized_accountants_REGN": {
+      "companies": 642,
+      "coverage_pct": 64.2,
+      "records_emitted": 683
+    },
+    "auditors_REVI": {
+      "companies": 342,
+      "coverage_pct": 34.2,
+      "records_emitted": 343
+    },
+    "deputy_board_members_VARA": {
+      "companies": 236,
+      "coverage_pct": 23.6,
+      "records_emitted": 309
+    },
+    "business_manager_FFOR": {
+      "companies": 49,
+      "coverage_pct": 4.9,
+      "records_emitted": 49
+    },
+    "other_roles": {
+      "DTPR": {
+        "companies": 3,
+        "records_emitted": 16
+      },
+      "HFOR": {
+        "companies": 7,
+        "records_emitted": 7
+      },
+      "DTSO": {
+        "companies": 2,
+        "records_emitted": 4
+      },
+      "KONT": {
+        "companies": 4,
+        "records_emitted": 4
+      },
+      "INNH": {
+        "companies": 2,
+        "records_emitted": 2
+      },
+      "REPR": {
+        "companies": 2,
+        "records_emitted": 2
+      },
+      "BOBE": {
+        "companies": 1,
+        "records_emitted": 1
+      }
+    }
+  },
+  "operations_and_resources": {
+    "network_requests_emitted": 0,
+    "outbound_bytes_emitted": 0,
+    "third_party_api_cost_usd": 0.0,
+    "runtime_seconds": 27.8
+  },
+  "validation_results": {
+    "terminal_envelope_validation": true,
+    "refresh_replay_validation": true,
+    "official_identity_completeness": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0,
+    "all_entity_states_terminal": true,
+    "all_module_states_terminal": true
+  },
+  "scoring_evaluation": {
+    "scorer": "signalpost_external_first_competition_proxy_v3",
+    "raw_score_before": 54.869,
+    "raw_score_after": 54.869,
+    "awardable_score_before": 54.869,
+    "awardable_score_after": 54.869,
+    "all_qualification_gates_passed": true,
+    "score_impact_note": "Local proxy v3 evaluates roles_and_locations based on module presence in evidence (already 4.0/4.0). Official competition score impact on the 35-point Information Coverage dimension is positive (+4,019 verified role records surfaced to top-level profile and convenience fields), but unverified by local proxy formulas."
+  },
+  "regression_checks": {
+    "website_requests_changed": false,
+    "website_identity_decisions_changed": false,
+    "financial_values_changed": false,
+    "financial_evidence_changed": false,
+    "workforce_observations_changed": false,
+    "social_observations_changed": false,
+    "news_observations_changed": false,
+    "external_footprint_observations_changed": false,
+    "terminal_states_changed": false,
+    "organisation_number_membership_changed": false,
+    "all_tests_passed": true
+  }
+}

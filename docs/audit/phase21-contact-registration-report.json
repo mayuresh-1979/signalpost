@@ -1,0 +1,175 @@
+{
+  "metadata": {
+    "phase": "Phase 21",
+    "task": "Emit Structured Addresses, Official Contact Channels & Core Registration Dates",
+    "timestamp": "2026-09-28T04:37:00Z",
+    "status": "completed",
+    "mode": "zero_network_evidence_propagation"
+  },
+  "corpus_summary": {
+    "total_profiles": 1000,
+    "total_envelopes": 1000,
+    "unique_organisation_numbers": 1000,
+    "silent_drops": 0,
+    "duplicate_organisation_numbers": 0
+  },
+  "coverage_summary": {
+    "business_address": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 998,
+      "coverage_pct": 99.8,
+      "missing_companies": 2,
+      "structured_component_facts_emitted": 6973,
+      "component_breakdown": {
+        "adresse": 991,
+        "postnummer": 996,
+        "poststed": 998,
+        "kommune": 996,
+        "kommunenummer": 996,
+        "land": 998,
+        "landkode": 998
+      },
+      "source_evidence_path": "profile.evidence.registry_live.value.business_address"
+    },
+    "postal_address": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 246,
+      "coverage_pct": 24.6,
+      "missing_companies": 754,
+      "structured_component_facts_emitted": 1709,
+      "component_breakdown": {
+        "adresse": 245,
+        "postnummer": 242,
+        "poststed": 246,
+        "kommune": 242,
+        "kommunenummer": 242,
+        "land": 246,
+        "landkode": 246
+      },
+      "covers_remaining_2_companies_without_business_address": true,
+      "combined_any_official_address_companies": 1000,
+      "source_evidence_path": "profile.evidence.registry_live.value.postal_address"
+    },
+    "official_email": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 242,
+      "coverage_pct": 24.2,
+      "missing_companies": 758,
+      "facts_emitted": 242,
+      "source_evidence_path": "profile.evidence.registry.value.epostadresse"
+    },
+    "official_phone": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 182,
+      "coverage_pct": 18.2,
+      "missing_companies": 818,
+      "facts_emitted": 182,
+      "source_evidence_path": "profile.evidence.registry.value.telefon"
+    },
+    "official_mobile": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 182,
+      "coverage_pct": 18.2,
+      "missing_companies": 818,
+      "facts_emitted": 182,
+      "any_phone_or_mobile_companies": 315,
+      "any_official_contact_channel_companies": 357,
+      "source_evidence_path": "profile.evidence.registry.value.mobil"
+    },
+    "registration_date": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 1000,
+      "coverage_pct": 100.0,
+      "missing_companies": 0,
+      "facts_emitted": 1000,
+      "source_evidence_path": "profile.evidence.registry.value.registreringsdatoenhetsregisteret"
+    },
+    "foundation_date": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 991,
+      "coverage_pct": 99.1,
+      "missing_companies": 9,
+      "facts_emitted": 991,
+      "source_evidence_path": "profile.evidence.registry.value.stiftelsesdato"
+    },
+    "articles_date": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 967,
+      "coverage_pct": 96.7,
+      "missing_companies": 33,
+      "facts_emitted": 967,
+      "source_evidence_path": "profile.evidence.registry.value.vedtektsdato"
+    },
+    "foretaksregisteret_date": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 974,
+      "coverage_pct": 97.4,
+      "missing_companies": 26,
+      "facts_emitted": 974,
+      "source_evidence_path": "profile.evidence.registry.value.registreringsdatoForetaksregisteret"
+    },
+    "foretaksregisteret_registered": {
+      "companies_before_at_top_level": 0,
+      "companies_after_at_top_level": 1000,
+      "coverage_pct": 100.0,
+      "true_count": 974,
+      "false_count": 26,
+      "missing_companies": 0,
+      "facts_emitted": 1000,
+      "source_evidence_path": "profile.evidence.registry.value.registrertIForetaksregisteret"
+    },
+    "totals": {
+      "top_level_fields_added_per_profile": 10,
+      "top_level_field_instances_emitted": 6782,
+      "total_structured_and_scalar_facts_emitted": 14222
+    }
+  },
+  "csv_quote_shift_safety": {
+    "affected_organisation_numbers": [
+      "998600421",
+      "914882036",
+      "926768026"
+    ],
+    "detected_and_protected_count": 3,
+    "columns_64_plus_blocked": true,
+    "pre_column_64_and_registry_live_fields_verified": true,
+    "corrupted_shifted_values_emitted": 0
+  },
+  "operations_and_resources": {
+    "network_requests_emitted": 0,
+    "outbound_bytes_emitted": 0,
+    "third_party_api_cost_usd": 0.0,
+    "profiles_fetched_this_run": 0,
+    "resumed_profiles": 1000,
+    "runtime_seconds": 31.3
+  },
+  "validation_results": {
+    "terminal_envelope_validation": true,
+    "refresh_replay_validation": true,
+    "deterministic_idempotent_replay": true,
+    "official_identity_completeness": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0,
+    "all_entity_states_terminal": true,
+    "all_module_states_terminal": true
+  },
+  "scoring_evaluation": {
+    "scorer": "signalpost_external_first_competition_proxy_v3",
+    "raw_score_before": 56.869,
+    "raw_score_after": 56.869,
+    "awardable_score_before": 56.869,
+    "awardable_score_after": 56.869,
+    "raw_score_without_resume_flag": 54.869,
+    "all_qualification_gates_passed": true,
+    "score_impact_note": "Local proxy v3 evaluates official_identity via registry_live organisation_number presence (already 4.0/4.0). Official Signalpost Information Coverage evaluation (35 points) gains 10 explicit top-level fields (6,782 non-null top-level field values / 14,222 total structured component and scalar facts across 1,000 companies) with 100% official BRREG provenance."
+  },
+  "regression_checks": {
+    "phase18_financial_companies_997_preserved": true,
+    "phase19_roles_companies_1000_records_4019_preserved": true,
+    "workforce_observations_preserved": true,
+    "website_identity_decisions_preserved": true,
+    "external_footprint_observations_preserved": true,
+    "phase20_audit_artifacts_preserved": true,
+    "phase21_unit_tests": "7/7 passed (57/57 across all phase suites)"
+  }
+}

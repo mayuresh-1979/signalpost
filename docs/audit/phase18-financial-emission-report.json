@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "phase": "Phase 18",
+    "task": "Emit Detailed Financial Metrics from Retained Evidence",
+    "timestamp": "2026-09-24T14:56:10.033444+00:00",
+    "status": "completed"
+  },
+  "corpus_summary": {
+    "total_profiles": 1000,
+    "total_envelopes": 1000,
+    "unique_organisation_numbers": 1000,
+    "silent_drops": 0,
+    "duplicate_organisation_numbers": 0
+  },
+  "financial_evidence_comparison": {
+    "companies_with_financial_evidence_before": 997,
+    "companies_with_financial_evidence_after": 997,
+    "companies_with_missing_financials": 3,
+    "missing_breakdown": {
+      "source_error": 2,
+      "not_found": 1
+    },
+    "total_financial_records_emitted": 997
+  },
+  "financial_facts_comparison": {
+    "facts_at_top_level_before": 0,
+    "facts_at_top_level_after": 9651,
+    "net_facts_gained": 9651,
+    "field_coverage": {
+      "revenue": 774,
+      "operating_result": 982,
+      "profit_before_tax": 962,
+      "annual_result": 997,
+      "assets": 997,
+      "equity": 992,
+      "debt": 956,
+      "currency": 997,
+      "reporting_period_from": 997,
+      "reporting_period_to": 997
+    },
+    "structured_financials_object_coverage": 997
+  },
+  "operations_and_resources": {
+    "network_requests_emitted": 0,
+    "outbound_bytes_emitted": 0,
+    "third_party_api_cost_usd": 0.0,
+    "runtime_seconds": 23.6
+  },
+  "validation_results": {
+    "terminal_envelope_validation": true,
+    "refresh_replay_validation": true,
+    "official_identity_completeness": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0,
+    "all_entity_states_terminal": true,
+    "all_module_states_terminal": true
+  },
+  "scoring_evaluation": {
+    "scorer": "signalpost_external_first_competition_proxy_v3",
+    "raw_score_before": 54.869,
+    "raw_score_after": 54.869,
+    "awardable_score_before": 54.869,
+    "awardable_score_after": 54.869,
+    "all_qualification_gates_passed": true,
+    "score_impact_note": "Local proxy v3 evaluates annual_accounts based on evidence.financials.status == available (already 3.988/4.0). Official competition score impact on the 35-point Information Coverage dimension is positive (+9,651 verified facts), but unverified by local proxy formulas."
+  },
+  "regression_checks": {
+    "website_requests_changed": false,
+    "external_connectors_changed": false,
+    "workforce_observations_changed": false,
+    "social_observations_changed": false,
+    "news_observations_changed": false,
+    "identity_decisions_changed": false,
+    "terminal_states_changed": false,
+    "all_tests_passed": true
+  }
+}

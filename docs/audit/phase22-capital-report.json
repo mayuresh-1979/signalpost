@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "phase": "Phase 22",
+    "task": "Emit Share Capital & Equity Registration Metadata",
+    "timestamp": "2026-09-28T04:56:00Z",
+    "status": "completed",
+    "mode": "zero_network_evidence_propagation"
+  },
+  "corpus_summary": {
+    "total_profiles": 1000,
+    "total_envelopes": 1000,
+    "unique_organisation_numbers": 1000,
+    "silent_drops": 0,
+    "duplicate_organisation_numbers": 0
+  },
+  "capital_coverage_summary": {
+    "companies_with_structured_capital_before": 0,
+    "companies_with_structured_capital_after": 938,
+    "companies_without_capital_evidence": 59,
+    "companies_excluded_by_csv_shift_guard": 3,
+    "share_capital_amount": {
+      "companies_before": 0,
+      "companies_after": 938,
+      "coverage_pct": 93.8,
+      "missing_companies": 62,
+      "facts_emitted": 938,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.belop']",
+      "top_level_convenience_field": "profile.share_capital",
+      "structured_field": "profile.capital.amount"
+    },
+    "share_capital_currency": {
+      "companies_before": 0,
+      "companies_after": 938,
+      "coverage_pct": 93.8,
+      "missing_companies": 62,
+      "facts_emitted": 938,
+      "value_distribution": {
+        "NOK": 938
+      },
+      "source_evidence_path": "profile.evidence.registry.value['kapital.valuta']",
+      "top_level_convenience_field": "profile.share_capital_currency",
+      "structured_field": "profile.capital.currency"
+    },
+    "capital_registered_date": {
+      "companies_before": 0,
+      "companies_after": 938,
+      "coverage_pct": 93.8,
+      "missing_companies": 62,
+      "facts_emitted": 938,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.innfortDato']",
+      "top_level_convenience_field": "profile.capital_registered_date",
+      "structured_field": "profile.capital.registered_date"
+    },
+    "share_count": {
+      "companies_before": 0,
+      "companies_after": 919,
+      "coverage_pct": 91.9,
+      "missing_companies": 81,
+      "facts_emitted": 919,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.antallAksjer']",
+      "top_level_convenience_field": "profile.share_count",
+      "structured_field": "profile.capital.share_count"
+    },
+    "capital_type": {
+      "companies_before": 0,
+      "companies_after": 938,
+      "coverage_pct": 93.8,
+      "missing_companies": 62,
+      "facts_emitted": 938,
+      "value_distribution": {
+        "Aksjekapital": 924,
+        "Grunnkapital": 14
+      },
+      "source_evidence_path": "profile.evidence.registry.value['kapital.type']",
+      "top_level_convenience_field": "profile.capital_type",
+      "structured_field": "profile.capital.type"
+    },
+    "paid_in_capital": {
+      "companies_before": 0,
+      "companies_after": 14,
+      "coverage_pct": 1.4,
+      "missing_companies": 986,
+      "facts_emitted": 14,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.innbetalt']",
+      "structured_field": "profile.capital.paid_in"
+    },
+    "fully_paid_in": {
+      "companies_before": 0,
+      "companies_after": 13,
+      "coverage_pct": 1.3,
+      "true_count": 13,
+      "false_count": 0,
+      "missing_companies": 987,
+      "facts_emitted": 13,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.fulltInnbetalt']",
+      "structured_field": "profile.capital.fully_paid_in"
+    },
+    "bound_restricted_capital": {
+      "companies_before": 0,
+      "companies_after": 0,
+      "coverage_pct": 0.0,
+      "missing_companies": 1000,
+      "facts_emitted": 0,
+      "source_evidence_path": "profile.evidence.registry.value['kapital.bundet']",
+      "structured_field": "profile.capital.bound"
+    },
+    "totals": {
+      "core_capital_facts_emitted": 4671,
+      "sparse_capital_facts_emitted": 27,
+      "total_capital_facts_emitted": 4698
+    }
+  },
+  "csv_quote_shift_guard": {
+    "companies_excluded_count": 3,
+    "excluded_companies": [
+      {
+        "organisation_number": "998600421",
+        "name": "PRISMA CONSULT AS",
+        "reason": "Bulk CSV quote-shift corruption starting at column 64 (vedtektsfestetFormaal/aktivitet); kapital.* columns shifted rightward."
+      },
+      {
+        "organisation_number": "914882036",
+        "name": "KULTURLANDRO AS",
+        "reason": "Bulk CSV quote-shift corruption starting at column 64; kapital.innfortDato contained shifted date '2015-01-29' and other kapital.* columns contained shifted text."
+      },
+      {
+        "organisation_number": "926768026",
+        "name": "THREE SOULS AS",
+        "reason": "Bulk CSV quote-shift corruption starting at column 64; kapital.* columns shifted rightward."
+      }
+    ],
+    "corrupted_shifted_values_emitted": 0
+  },
+  "data_quality_findings": [
+    {
+      "finding": "Non-integer cent precision in share capital amounts",
+      "details": "15 of the 938 clean companies have non-.00 decimal share capital amounts in BRREG (e.g. 122569.75, 27864258.96, 775057.05 NOK); preserved exactly as float."
+    },
+    {
+      "finding": "Grunnkapital foundation with paid_in == amount but empty fulltInnbetalt",
+      "details": "All 14 companies with kapital.innbetalt are foundations (STI, Grunnkapital). For 977539366 (SELVAAGS FOND TIL ALMENNYTTIGE FORMÅL STI), kapital.belop and kapital.innbetalt are both 800000.00, but kapital.fulltInnbetalt is empty in BRREG; emitted with paid_in=800000.0 and fully_paid_in=None without inferring True or False."
+    },
+    {
+      "finding": "Aksjekapital companies without registered share count",
+      "details": "19 of the 938 companies with capital have no share count: 14 are Grunnkapital foundations (STI) where share counts do not apply, and 5 are older AS companies (979346050, 937418906, 861401812, 916070276, 810059672) where BRREG lists Aksjekapital amount without antallAksjer; emitted with share_count=None."
+    },
+    {
+      "finding": "Shifted date/number false-positive hazard prevented by row-level CSV-shift guard",
+      "details": "On shifted row 914882036, kapital.innfortDato held '2015-01-29' (a valid ISO date shifted from an earlier column), and on 998600421, kapital.bundet held '30000.00' (belop shifted into bundet). Field-level type validation alone would have accepted those values; the row-level is_csv_quote_shifted guard blocked all 3 rows."
+    }
+  ],
+  "operations_and_resources": {
+    "network_requests_emitted": 0,
+    "outbound_bytes_emitted": 0,
+    "third_party_api_cost_usd": 0.0,
+    "profiles_fetched_this_run": 0,
+    "resumed_profiles": 1000,
+    "runtime_seconds": 28.35
+  },
+  "validation_results": {
+    "terminal_envelope_validation": true,
+    "refresh_replay_validation": true,
+    "deterministic_idempotent_replay": true,
+    "official_identity_completeness": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0,
+    "all_entity_states_terminal": true,
+    "all_module_states_terminal": true
+  },
+  "scoring_evaluation": {
+    "scorer": "signalpost_external_first_competition_proxy_v3",
+    "phase21_score": 56.869,
+    "phase22_score": 56.869,
+    "score_difference": 0.0,
+    "local_score_status": "local score unchanged",
+    "all_qualification_gates_passed": true,
+    "score_impact_note": "local score unchanged: the local proxy v3 evaluator does not inspect profile.capital or the top-level share_capital convenience fields."
+  },
+  "regression_checks": {
+    "phase18_financials_unchanged": true,
+    "phase19_roles_unchanged": true,
+    "phase21_fields_unchanged": true,
+    "workforce_observations_unchanged": true,
+    "website_and_external_observations_unchanged": true,
+    "wrong_company_count": 0,
+    "unsupported_claims_count": 0,
+    "network_requests": 0,
+    "external_api_cost_usd": 0.0,
+    "phase22_unit_tests": "7/7 passed",
+    "all_phase_regression_suites": "64/64 passed",
+    "recommendation": "ACCEPT Phase 22"
+  }
+}

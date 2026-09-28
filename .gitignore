@@ -1,0 +1,49 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test / tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local scratch / experiments
+scratch/
+tmp/
+temp/
+
+# Local logs
+*.log
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Local Python tooling
+.pyre/
+.pytype/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

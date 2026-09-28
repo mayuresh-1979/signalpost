@@ -1,0 +1,516 @@
+{
+  "metadata": {
+    "phase": "Phase 20",
+    "task": "Remaining BRREG Evidence Coverage & Evaluator Recognition Audit",
+    "timestamp": "2026-09-25T03:52:00Z",
+    "mode": "audit_only",
+    "network_requests": 0,
+    "third_party_cost_usd": 0.0,
+    "production_code_modified": false,
+    "corpus_modified": false
+  },
+  "corpus_baseline": {
+    "profiles_count": 1000,
+    "envelopes_count": 1000,
+    "unique_organisation_numbers": 1000,
+    "external_observations_file": "out/phase17-external-combined.jsonl",
+    "current_competition_proxy_v3_score": 54.869,
+    "all_qualification_gates_passed": true,
+    "csv_quote_shifted_rows_in_bulk_registry": {
+      "count": 3,
+      "organisation_numbers": [
+        "998600421",
+        "914882036",
+        "926768026"
+      ],
+      "affected_columns_from_index_64": [
+        "vedtektsfestetFormaal",
+        "aktivitet",
+        "paategninger",
+        "underUtenlandskInsolvensbehandlingDato",
+        "underRekonstruksjonsforhandlingDato",
+        "fravalgRevisjonDato",
+        "fravalgRevisjonBeslutningsDato",
+        "erIKonsern",
+        "kapital.belop",
+        "kapital.antallAksjer",
+        "kapital.type",
+        "kapital.bundet",
+        "kapital.valuta",
+        "kapital.innbetalt",
+        "kapital.fulltInnbetalt",
+        "kapital.innfortDato"
+      ],
+      "unaffected_columns_0_to_63": "All columns prior to index 64 (including identity, NACE 1/2/3, employees, website, email, phone/mobile, postal/business addresses, registration/foundation/articles/Foretaksregisteret/MVA dates) precede vedtektsfestetFormaal and are unshifted across all 1,000 companies."
+    }
+  },
+  "step1_output_contract_mapping": [
+    {
+      "retained_evidence_field": "evidence.registry.value.organisasjonsnummer / evidence.registry_live.value.organisation_number",
+      "current_emitted_field": "profile.organisation_number",
+      "terminal_envelope_representation": "envelope.organisation_number & envelope.profile.organisation_number",
+      "local_evaluator_recognition": "A (Directly recognized: score_competition_v3 official_identity, score_company_completeness official_identity, research.py, refresh.py, validate_envelopes)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value.navn / evidence.registry_live.value.name",
+      "current_emitted_field": "profile.name",
+      "terminal_envelope_representation": "envelope.profile.name",
+      "local_evaluator_recognition": "A (Directly recognized: research.py answer_profile/screen_profiles, refresh.py registry.name, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value['organisasjonsform.kode'] / evidence.registry_live.value.legal_form",
+      "current_emitted_field": "profile.legal_form",
+      "terminal_envelope_representation": "envelope.profile.legal_form",
+      "local_evaluator_recognition": "A (Directly recognized: research.py answer_profile/screen_profiles, refresh.py registry.legal_form, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value.antallAnsatte / evidence.registry_live.value.employees",
+      "current_emitted_field": "profile.employees & external workforce_snapshot observations",
+      "terminal_envelope_representation": "envelope.profile.employees",
+      "local_evaluator_recognition": "A (Directly recognized: research.py, refresh.py registry.employees, evaluate_external_footprint.py workforce_jobs via extract_official_workforce.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value['forretningsadresse.kommune'] & ['forretningsadresse.kommunenummer']",
+      "current_emitted_field": "profile.municipality & profile.municipality_number",
+      "terminal_envelope_representation": "envelope.profile.municipality & envelope.profile.municipality_number",
+      "local_evaluator_recognition": "A (Directly recognized: research.py municipality filter & QA, refresh.py registry.municipality, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value['naeringskode1.kode'] & ['naeringskode1.beskrivelse']",
+      "current_emitted_field": "profile.industry_code & profile.industry_label",
+      "terminal_envelope_representation": "envelope.profile.industry_code & envelope.profile.industry_label",
+      "local_evaluator_recognition": "A (Directly recognized: research.py industry filter, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value.hjemmeside / evidence.registry_live.value.website",
+      "current_emitted_field": "profile.website",
+      "terminal_envelope_representation": "envelope.profile.website",
+      "local_evaluator_recognition": "A (Directly recognized: refresh.py registry.website, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.registry.value.sisteInnsendteAarsregnskap / evidence.registry_live.value.latest_submitted_accounts",
+      "current_emitted_field": "profile.latest_submitted_accounts",
+      "terminal_envelope_representation": "envelope.profile.latest_submitted_accounts",
+      "local_evaluator_recognition": "A (Directly recognized: refresh.py registry.latest_submitted_accounts, build_prototype.py)"
+    },
+    {
+      "retained_evidence_field": "evidence.financials.value.records (Phase 18)",
+      "current_emitted_field": "profile.financials, profile.revenue, profile.operating_result, profile.profit_before_tax, profile.annual_result, profile.assets, profile.equity, profile.debt, profile.currency, profile.reporting_period_from, profile.reporting_period_to",
+      "terminal_envelope_representation": "envelope.modules.financials & envelope.profile.financials + top-level scalar fields",
+      "local_evaluator_recognition": "A via evidence.financials (score_competition_v3 annual_accounts, research.py, refresh.py financials.records); C for top-level convenience fields in local proxy"
+    },
+    {
+      "retained_evidence_field": "evidence.roles.value.roles (Phase 19)",
+      "current_emitted_field": "profile.roles, profile.board_chair, profile.managing_director, profile.board_members, profile.deputy_board_members, profile.auditors, profile.authorized_accountants",
+      "terminal_envelope_representation": "envelope.modules.roles & envelope.profile.roles + top-level convenience fields",
+      "local_evaluator_recognition": "A via evidence.roles (score_competition_v3 roles_and_locations, research.py, refresh.py roles.roles); C for top-level convenience fields in local proxy"
+    }
+  ],
+  "step2_purpose_and_activity": {
+    "vedtektsfestetFormaal": {
+      "evidence_path": "profile.evidence.registry.value.vedtektsfestetFormaal",
+      "companies_raw_non_empty": 966,
+      "companies_clean_unshifted": 963,
+      "companies_shifted_quote_corrupted": 3,
+      "companies_missing": 34,
+      "total_clean_facts": 963,
+      "currently_emitted_at_top_level": false,
+      "in_terminal_envelope": "Retained only inside envelope.profile.evidence.registry.value.vedtektsfestetFormaal",
+      "local_evaluator_recognition": "C (Not recognized by local evaluator scripts)",
+      "contributes_to_local_score": false,
+      "official_coverage_relevance": "Fact-based statutory corporate purpose from Foretaksregisteret/Enhetsregisteret; relevant to official company description/activity coverage if clean-parsed."
+    },
+    "aktivitet": {
+      "evidence_path": "profile.evidence.registry.value.aktivitet",
+      "companies_raw_non_empty": 1000,
+      "companies_clean_unshifted": 997,
+      "companies_shifted_quote_corrupted": 3,
+      "companies_missing": 0,
+      "total_clean_facts": 997,
+      "currently_emitted_at_top_level": false,
+      "in_terminal_envelope": "Retained only inside envelope.profile.evidence.registry.value.aktivitet",
+      "local_evaluator_recognition": "C (Not recognized by local evaluator scripts)",
+      "contributes_to_local_score": false,
+      "official_coverage_relevance": "Fact-based registered operational activity description across 99.7% of companies (clean)."
+    }
+  },
+  "step3_capital_and_equity_registration": {
+    "share_capital_amount": {
+      "evidence_path": "profile.evidence.registry.value['kapital.belop']",
+      "companies_raw_non_empty": 941,
+      "companies_valid_numeric": 938,
+      "companies_shifted_invalid": 3,
+      "companies_missing": 59,
+      "total_valid_facts": 938,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "share_capital_currency": {
+      "evidence_path": "profile.evidence.registry.value['kapital.valuta']",
+      "companies_raw_non_empty": 941,
+      "companies_valid_currency_nok": 938,
+      "companies_shifted_invalid": 3,
+      "companies_missing": 59,
+      "total_valid_facts": 938,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "capital_registration_date": {
+      "evidence_path": "profile.evidence.registry.value['kapital.innfortDato']",
+      "companies_raw_non_empty": 940,
+      "companies_valid_iso_date": 938,
+      "companies_shifted": 2,
+      "companies_missing": 60,
+      "total_valid_facts": 938,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "total_share_count": {
+      "evidence_path": "profile.evidence.registry.value['kapital.antallAksjer']",
+      "companies_raw_non_empty": 921,
+      "companies_valid_integer": 919,
+      "companies_shifted_invalid": 2,
+      "companies_missing": 79,
+      "total_valid_facts": 919,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "capital_type": {
+      "evidence_path": "profile.evidence.registry.value['kapital.type']",
+      "companies_raw_non_empty": 941,
+      "companies_valid_type": 938,
+      "breakdown": {
+        "Aksjekapital": 924,
+        "Grunnkapital": 14
+      },
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "total_clean_capital_facts": 4671
+  },
+  "step4_corporate_registration_dates": {
+    "enhetsregisteret_registration_date": {
+      "evidence_path": "profile.evidence.registry.value.registreringsdatoenhetsregisteret",
+      "companies_covered": 1000,
+      "valid_iso_dates": 1000,
+      "missing": 0,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)",
+      "period_semantics": "Point-in-time statutory registration date in Enhetsregisteret (not a reporting period)."
+    },
+    "foundation_date": {
+      "evidence_path": "profile.evidence.registry.value.stiftelsesdato",
+      "companies_covered": 991,
+      "valid_iso_dates": 991,
+      "missing": 9,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)",
+      "period_semantics": "Point-in-time company incorporation/foundation date."
+    },
+    "articles_of_association_date": {
+      "evidence_path": "profile.evidence.registry.value.vedtektsdato",
+      "companies_covered": 967,
+      "valid_iso_dates": 967,
+      "missing": 33,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)",
+      "period_semantics": "Date of latest registered articles of association (vedtekter)."
+    },
+    "foretaksregisteret_registration_date": {
+      "evidence_path": "profile.evidence.registry.value.registreringsdatoForetaksregisteret",
+      "companies_covered": 974,
+      "valid_iso_dates": 974,
+      "missing": 26,
+      "boolean_flag_path": "profile.evidence.registry.value.registrertIForetaksregisteret (1000 companies: 974 true, 26 false)",
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)",
+      "period_semantics": "Point-in-time registration date in Foretaksregisteret."
+    },
+    "total_registration_date_facts": 3932
+  },
+  "step5_mva_vat_and_audit_exemption": {
+    "mva_registration_status": {
+      "evidence_path": "profile.evidence.registry.value.registrertIMvaRegisteret",
+      "companies_covered": 1000,
+      "true_count": 507,
+      "false_count": 493,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "mva_registration_date": {
+      "evidence_path": "profile.evidence.registry.value.registreringsdatoMerverdiavgiftsregisteret",
+      "companies_covered": 507,
+      "valid_iso_dates": 507,
+      "enhetsregisteret_mva_date_path": "profile.evidence.registry.value.registreringsdatoMerverdiavgiftsregisteretEnhetsregisteret (507 companies)",
+      "voluntary_mva_companies": 94,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "audit_exemption_status_and_dates": {
+      "evidence_paths": [
+        "profile.evidence.registry.value.fravalgRevisjonDato",
+        "profile.evidence.registry.value.fravalgRevisjonBeslutningsDato"
+      ],
+      "fravalgRevisjonDato_raw": 638,
+      "fravalgRevisjonDato_valid_iso_date": 636,
+      "fravalgRevisjonBeslutningsDato_raw": 437,
+      "fravalgRevisjonBeslutningsDato_valid_iso_date": 436,
+      "shifted_invalid_rows": 2,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    }
+  },
+  "step6_addresses_and_contact": {
+    "registered_business_address": {
+      "evidence_paths": [
+        "profile.evidence.registry_live.value.business_address (structured dict)",
+        "profile.evidence.registry.value['forretningsadresse.*'] (CSV fields)"
+      ],
+      "companies_covered": 998,
+      "component_counts": {
+        "adresse_street": 991,
+        "postnummer": 996,
+        "poststed": 998,
+        "kommune": 996,
+        "kommunenummer": 996,
+        "land": 998,
+        "landkode": 998
+      },
+      "currently_emitted_at_top_level": "Partially: only municipality (996) and municipality_number (996) are at top level; street address, postal code, and city are only in evidence.registry_live.value.business_address and evidence.registry.value.",
+      "local_evaluator_recognition": "A for municipality (research.py, refresh.py); C for street/postal_code/city"
+    },
+    "postal_address": {
+      "evidence_paths": [
+        "profile.evidence.registry_live.value.postal_address (structured dict)",
+        "profile.evidence.registry.value['postadresse.*'] (CSV fields)"
+      ],
+      "companies_covered": 246,
+      "covers_remaining_2_companies_without_business_address": true,
+      "combined_any_official_address_coverage": 1000,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "official_email": {
+      "evidence_path": "profile.evidence.registry.value.epostadresse",
+      "companies_covered": 242,
+      "total_facts": 242,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "official_phone_and_mobile": {
+      "evidence_paths": [
+        "profile.evidence.registry.value.telefon",
+        "profile.evidence.registry.value.mobil"
+      ],
+      "telefon_companies": 182,
+      "mobil_companies": 182,
+      "any_phone_or_mobile_companies": 315,
+      "both_telefon_and_mobil_companies": 49,
+      "total_phone_mobile_facts": 364,
+      "any_official_contact_email_or_phone_companies": 357,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "municipality_and_code": {
+      "evidence_paths": [
+        "profile.municipality",
+        "profile.municipality_number"
+      ],
+      "companies_covered": 996,
+      "currently_emitted_at_top_level": true,
+      "local_evaluator_recognition": "A (Directly recognized by research.py, refresh.py, build_prototype.py)"
+    }
+  },
+  "step7_subunits_establishments": {
+    "evidence_path": "profile.evidence.locations.value.locations",
+    "external_workforce_path": "out/phase17-external-combined.jsonl (signal_type=workforce_snapshot, id=brreg-workforce-subunit-*)",
+    "companies_with_locations_module_available": 1000,
+    "companies_with_at_least_one_active_subunit": 747,
+    "companies_with_zero_subunits": 253,
+    "total_active_subunits": 876,
+    "subunit_fact_breakdown": {
+      "organisation_number": 876,
+      "name": 876,
+      "address": 876,
+      "municipality": 873,
+      "municipality_number": 873,
+      "industry_nace": 869,
+      "employee_counts": 194,
+      "companies_with_subunit_employee_counts": 142
+    },
+    "inactive_status_handling": "Inactive/closed subunits (rows with non-empty nedleggelsesdato in brreg-underenheter.csv) are filtered out at bulk ingestion in src/norway_company_agent/subunits.py line 83; all 876 retained subunits are active.",
+    "currently_emitted_at_top_level": false,
+    "in_terminal_envelope": "envelope.modules.locations (state=complete) & envelope.profile.evidence.locations.value.locations",
+    "evaluator_classification_choice": "D (workforce/location evidence) + B (individual cited facts in research_agent)",
+    "evaluator_mechanisms": {
+      "score_competition_v3": "Checks 'locations' in row['evidence'] for foundation.roles_and_locations (4.0 pts) and scores subunit workforce_snapshot observations in external.workforce_and_jobs (1.001/7.0 pts).",
+      "score_company_completeness": "Checks module_present(evidence, 'locations') for 5.0 foundation points.",
+      "research_agent": "Emits up to 12 'Registered subunit' facts (name + address) per company from evidence.locations.value.locations.",
+      "refresh_replay": "Tracks ('evidence', 'locations', 'value', 'locations') under locations.locations."
+    }
+  },
+  "step8_secondary_nace_classifications": {
+    "primary_nace_already_emitted": {
+      "fields": [
+        "profile.industry_code",
+        "profile.industry_label"
+      ],
+      "companies_covered": 1000
+    },
+    "nace2": {
+      "evidence_paths": [
+        "profile.evidence.registry.value['naeringskode2.kode']",
+        "profile.evidence.registry.value['naeringskode2.beskrivelse']"
+      ],
+      "companies_covered": 16,
+      "total_facts": 32,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized; research.py only checks primary industry_code and industry_label)"
+    },
+    "nace3": {
+      "evidence_paths": [
+        "profile.evidence.registry.value['naeringskode3.kode']",
+        "profile.evidence.registry.value['naeringskode3.beskrivelse']"
+      ],
+      "companies_covered": 2,
+      "total_facts": 4,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    },
+    "ancillary_hjelpeenhetskode": {
+      "evidence_paths": [
+        "profile.evidence.registry.value['hjelpeenhetskode.kode']",
+        "profile.evidence.registry.value['hjelpeenhetskode.beskrivelse']"
+      ],
+      "companies_covered": 74,
+      "total_facts": 148,
+      "currently_emitted_at_top_level": false,
+      "local_evaluator_recognition": "C (Not recognized)"
+    }
+  },
+  "step9_corporate_group_information": {
+    "evidence_path": "profile.evidence.group.value",
+    "bulk_flag_path": "profile.evidence.registry.value.erIKonsern",
+    "companies_with_group_evidence_available": 70,
+    "companies_with_group_not_found": 930,
+    "structural_entity_analysis": {
+      "profile_is_ultimate_parent": 20,
+      "profile_is_subsidiary_in_group_tree": 50,
+      "profile_has_direct_parent_link": 50,
+      "profile_has_direct_subsidiaries": 23,
+      "direct_subsidiary_records_belonging_to_profile": 42,
+      "direct_subsidiaries_with_ownership_pct_grunnlag": 42,
+      "direct_subsidiaries_with_parent_org_number": 42,
+      "total_nodes_across_all_70_group_trees": 902,
+      "non_direct_nodes_in_group_trees_sister_parent_cousin": 860
+    },
+    "critical_entity_safety_finding": "BRREG konsernstruktur returns the entire group tree rooted at the ultimate parent (val.organisasjonsnummer). For 50 of the 70 companies, val.organisasjonsnummer is NOT the profile company, and 860 of the 902 child nodes in the trees are sister/cousin/sub-subsidiary entities rather than direct subsidiaries of the profile company. Emitting val.children without filtering parentOrganisasjonsnummer == profile.organisation_number would misattribute sister companies as subsidiaries.",
+    "currently_emitted_at_top_level": false,
+    "local_evaluator_recognition": "C (Not recognized by any local evaluator script)"
+  },
+  "step10_local_evaluator_recognition_summary": {
+    "A_directly_recognized": [
+      "organisation_number",
+      "name",
+      "legal_form",
+      "employees (registry + subunit workforce observations)",
+      "municipality",
+      "industry_code & industry_label (primary NACE 1)",
+      "website & evidence.website",
+      "latest_submitted_accounts & evidence.financials",
+      "evidence.roles",
+      "evidence.locations (subunits)",
+      "evidence.registry_live"
+    ],
+    "B_indirectly_useful": [
+      "naeringskode2 / naeringskode3 (only if research.py industry filter were modified, which is out of scope)",
+      "postal_address (for the 2 companies lacking business_address municipality)"
+    ],
+    "C_not_recognized_by_local_evaluator": [
+      "vedtektsfestetFormaal (corporate purpose)",
+      "aktivitet (operational activity)",
+      "kapital.* (share capital, currency, share count, capital registration date, capital type)",
+      "registreringsdatoenhetsregisteret, stiftelsesdato, vedtektsdato, registreringsdatoForetaksregisteret",
+      "registrertIMvaRegisteret & MVA registration dates",
+      "fravalgRevisjonDato & fravalgRevisjonBeslutningsDato (audit exemption)",
+      "forretningsadresse street/postal_code/city & postadresse",
+      "epostadresse, telefon, mobil (official contact info)",
+      "top-level subunits/locations convenience array (local evaluators already read evidence.locations)",
+      "evidence.group (corporate group tree)"
+    ],
+    "D_unknown_external_official_judge": "The official Signalpost 35-point Information Coverage judge evaluates company-level and fact-level coverage across categories on hidden test companies, whose exact field extractor weights are not in the local repo."
+  },
+  "step13_top_3_future_candidates": [
+    {
+      "rank": 1,
+      "candidate": "Structured Addresses, Official Contact Info & Core Registration Dates",
+      "source_paths": [
+        "evidence.registry_live.value.business_address (998 companies)",
+        "evidence.registry_live.value.postal_address (246 companies; 1,000/1,000 combined address coverage)",
+        "evidence.registry.value.epostadresse (242), telefon (182), mobil (182) -> 357 companies with official contact",
+        "evidence.registry.value.stiftelsesdato (991), registreringsdatoenhetsregisteret (1000), vedtektsdato (967), registreringsdatoForetaksregisteret (974)"
+      ],
+      "companies_affected": 1000,
+      "facts_affected": 6199,
+      "column_shift_risk": "ZERO (all fields are in CSV columns 17-47 and 63, prior to column 64 vedtektsfestetFormaal, or in clean JSON registry_live).",
+      "network_requests": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "rank": 2,
+      "candidate": "Share Capital & Equity Registration Metadata (with Strict Type Guards)",
+      "source_paths": [
+        "evidence.registry.value['kapital.belop'] (938 valid numeric)",
+        "evidence.registry.value['kapital.valuta'] (938 valid currency)",
+        "evidence.registry.value['kapital.antallAksjer'] (919 valid int)",
+        "evidence.registry.value['kapital.innfortDato'] (938 valid ISO date)",
+        "evidence.registry.value['kapital.type'] (938 valid type)"
+      ],
+      "companies_affected": 938,
+      "facts_affected": 4671,
+      "column_shift_risk": "3 rows in bulk CSV have shifted columns due to unescaped quotes in column 64/65; easily guarded by rejecting rows where 'null' in registry.value or where numeric/date/currency regex validation fails.",
+      "network_requests": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "rank": 3,
+      "candidate": "Corporate Purpose, Operational Activity, MVA Status & Audit Exemption (with Unshifted Guard)",
+      "source_paths": [
+        "evidence.registry.value.aktivitet (997 clean)",
+        "evidence.registry.value.vedtektsfestetFormaal (963 clean)",
+        "evidence.registry.value.registrertIMvaRegisteret (1000) & registreringsdatoMerverdiavgiftsregisteret (507)",
+        "evidence.registry.value.fravalgRevisjonDato (636 valid ISO dates)"
+      ],
+      "companies_affected": 1000,
+      "facts_affected": 4103,
+      "column_shift_risk": "Guarded by excluding the 3 CSV-shifted rows (where 'null' in registry.value) for columns >= 64.",
+      "network_requests": 0,
+      "cost_usd": 0.0
+    }
+  ],
+  "step14_invariant_verification": {
+    "production_source_files_unchanged": true,
+    "network_requests_made": 0,
+    "profiles_jsonl_unchanged": true,
+    "envelopes_jsonl_unchanged": true,
+    "evaluator_scripts_unchanged": true,
+    "phase18_financials_unchanged": {
+      "companies_with_financials": 997,
+      "revenue_facts": 774,
+      "total_top_level_financial_facts": 9651
+    },
+    "phase19_roles_unchanged": {
+      "companies_with_roles": 1000,
+      "total_role_records": 4019,
+      "board_chair": 986,
+      "managing_director": 648
+    },
+    "external_observations_unchanged": {
+      "total_observations": 396,
+      "entity_workforce": 143,
+      "subunit_workforce": 194,
+      "social_handles": 43,
+      "site_activity_news": 16
+    }
+  }
+}
