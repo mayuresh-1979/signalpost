@@ -12,7 +12,7 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 - **Independent clean-clone verification:** PASS
 - **Fresh-clone environment:** Python 3.13.11 + uv 0.12.17
 - **Fresh-clone smoke test:** PASS
-- **Fresh-clone audited test suites:** **74 / 74 passed**
+- **Fresh-clone audited test suites:** **178 / 178 passed**
 - **Frozen canonical output artifacts:** preserved unchanged in `out/`
 - **Large BRREG snapshots:** stored with Git LFS
 
