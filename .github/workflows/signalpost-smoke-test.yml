@@ -1,0 +1,83 @@
+name: Signalpost 100-company live smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - ".github/workflows/signalpost-smoke-test.yml"
+      - "scripts/validate_smoke_test.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: signalpost-smoke-test-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout repository and BRREG LFS snapshots
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.12.17"
+          enable-cache: true
+
+      - name: Install locked dependencies
+        run: uv sync --locked
+
+      - name: Create 100-company input batch
+        shell: bash
+        run: |
+          mkdir -p out/smoke-test
+          head -n 100 entry-companies.jsonl > out/smoke-test/input-100.jsonl
+          test "$(wc -l < out/smoke-test/input-100.jsonl)" -eq 100
+
+      - name: Run the agent against live official/public sources
+        run: >-
+          uv run --locked python scripts/run_competition_batch.py
+          --organisations out/smoke-test/input-100.jsonl
+          --bulk brreg-enheter.csv
+          --subunits-bulk brreg-underenheter.csv
+          --profiles-output out/smoke-test/profiles-100.jsonl
+          --output out/smoke-test/envelopes-100.jsonl
+          --report out/smoke-test/run-report-100.json
+          --run-id smoke-100-${{ github.run_id }}
+          --expected-count 100
+          --workers 8
+
+      - name: Validate one terminal result per input and write report
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: >-
+          uv run --locked python scripts/validate_smoke_test.py
+          out/smoke-test/input-100.jsonl
+          out/smoke-test/profiles-100.jsonl
+          out/smoke-test/envelopes-100.jsonl
+          out/smoke-test/run-report-100.json
+
+      - name: Publish smoke-test evidence as workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signalpost-100-company-smoke-test-${{ github.run_id }}
+          path: |
+            out/smoke-test/
+          if-no-files-found: warn
+          retention-days: 30
