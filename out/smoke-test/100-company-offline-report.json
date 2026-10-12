@@ -1,0 +1,33 @@
+{
+  "report_type": "offline_frozen_corpus_100_company_smoke_test",
+  "run_id": "offline-smoke-100-frozen-corpus",
+  "generated_at_utc": "2026-10-12T18:25:49.400982+00:00",
+  "status": "PASS",
+  "execution_mode": "Offline validation of the first 100 records in the retained 1,000-company corpus; no live APIs or fresh company fetches were executed.",
+  "input_manifest": "entry-companies.jsonl (first 100 rows)",
+  "input_count": 100,
+  "profiles_checked": 100,
+  "envelopes_checked": 100,
+  "terminal_states": {
+    "complete": 100
+  },
+  "checks": {
+    "input_count_is_100": true,
+    "input_org_numbers_unique": true,
+    "all_100_profiles_present": true,
+    "all_100_envelopes_present": true,
+    "profile_envelope_alignment": true,
+    "all_terminal_envelopes": true,
+    "no_silent_drops": true
+  },
+  "limitations": [
+    "This is not a live 100-company evaluation.",
+    "The uploaded repository archive contains Git LFS pointer files rather than the full BRREG CSV snapshots, and package installation could not reach PyPI in this environment."
+  ],
+  "source_artifacts": {
+    "input_manifest_sha256": "bfffe8a80985ac38dde57b8cf2cf0339146fe079d7af74aad5f92dfa4640788b",
+    "profiles_sha256": "07ab85278f869fefe7a8fddd6ca5b13fe27ca6172c152f0e31ac158bdf62efa3",
+    "envelopes_sha256": "80ebf6ae5f55d92ed325005fd66907d061b30ce4faa442521d1f7dbabdb041b3",
+    "historical_run_report_sha256": "6e7d266d4847fb38c162c817ee87fc7a5559366d65d9f944fe08fbfae048732a"
+  }
+}
