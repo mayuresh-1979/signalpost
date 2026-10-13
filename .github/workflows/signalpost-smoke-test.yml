@@ -7,6 +7,9 @@ on:
     paths:
       - ".github/workflows/signalpost-smoke-test.yml"
       - "scripts/validate_smoke_test.py"
+      - "scripts/audit_evidence_quality.py"
+      - "scripts/export_builderr_contract.py"
+      - "scripts/validate_builderr_contract.py"
 
 permissions:
   contents: read
