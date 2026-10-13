@@ -25,6 +25,41 @@ is [closed to new customers and scheduled to discontinue on 1 January 2027](http
 Serper and Tavily can be evaluated as declared alternatives only after their storage, source, and crawling
 rights are accepted for this use.
 
+## Reproducible discovery benchmark procedure
+
+The helper `scripts/prepare_external_discovery_benchmark.py` creates stable, non-overlapping
+development and validation cohorts from profiles that have no registry website. It makes **zero network
+requests**, does not modify the source corpus, rejects duplicate organisation numbers, and writes a manifest
+with the selected IDs. The default is 100 profiles per split; for an initial cost-controlled pilot, use 20.
+
+```bash
+uv run --locked python scripts/prepare_external_discovery_benchmark.py \
+  --profiles out/profiles.jsonl \
+  --output-dir out/external-discovery-pilot-20261013 \
+  --limit-per-split 20
+```
+
+Set `BRAVE_SEARCH_API_KEY` in the local environment without placing the secret in a command, repository,
+workflow log, or report. Check the current provider plan and terms before making requests. Start only on the
+development split and keep promotion disabled:
+
+```bash
+uv run --locked python scripts/run_brave_discovery.py \
+  --input out/external-discovery-pilot-20261013/development.jsonl \
+  --output out/external-discovery-pilot-20261013/development-discovered.jsonl \
+  --report out/external-discovery-pilot-20261013/development-report.json \
+  --limit 20
+```
+
+Do **not** pass `--promote-verified` during the first pilot. It should produce a measured candidate report,
+not silently alter canonical output fields. Manually adjudicate each result against exact-entity evidence
+and record candidate correctness, eligible site-exists status, source rights, cost, and latency in a separate
+label file. Only after the development cohort meets the precision and rights gates should the untouched
+validation cohort be queried. Do not use validation labels to tune thresholds.
+
+A prepared split manifest is not ground truth and does not prove the connector qualifies. A zero-network
+test of the split helper is not an external-discovery result.
+
 Production discovery gate:
 
 - at least 500 frozen organisations, including at least 200 verified site-exists positives, 150 hard
