@@ -11,6 +11,7 @@ on:
       - "scripts/export_builderr_contract.py"
       - "scripts/validate_builderr_contract.py"
       - "scripts/test_export_builderr_contract.py"
+      - "scripts/run_builderr_submission.py"
 
 permissions:
   contents: read
@@ -45,6 +46,9 @@ jobs:
 
       - name: Test Builderr exporter semantics
         run: uv run --locked python -m unittest scripts/test_export_builderr_contract.py
+
+      - name: Check submission runner interface
+        run: uv run --locked python scripts/run_builderr_submission.py --help
 
       - name: Create 100-company input batch
         shell: bash
