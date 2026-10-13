@@ -7,18 +7,20 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 ## Verification Status
 
 - **Repository:** `mayuresh-1979/signalpost`
-- **Verified commit:** `637678c20a7670c991b1b95237865693fcdbe809`
-- **Latest workflow:** [Run #12 — live smoke test + independent clean-clone reproducibility](https://github.com/mayuresh-1979/signalpost/actions/runs/38401946912) — **PASS**.
-- **Fresh-clone verification:** Git cloned the exact commit into a separate directory; Git LFS restored both BRREG snapshots; `uv sync --locked`, exporter regression tests, and the full one-command 100-company pipeline passed.
-- **Live 100-company batch:** 100/100 inputs produced 100 profiles and 100 terminal envelopes; all IDs were unique and aligned; zero silent drops. Runtime was approximately 95 seconds, with 387 HTTP requests and about 7.57 MB transferred.
-- **Evidence audit:** 621/621 available evidence records had valid URL, retrieval timestamp, and SHA-256; zero structural provenance or identity issues. Of 21 website candidates, 8 passed the strict publication identity gate and 13 were quarantined.
-- **Builderr contract:** 100 output rows validated; 4,334 claims and 621 evidence records; zero contract validation errors. Unavailable and ambiguous claim values remain withheld.
-- **Artifact scope:** These checks establish structural correctness and reproducibility only. They are **not** an official Builderr score or a human factual-accuracy certification.
-- **Local score diagnostic:** `signalpost_external_first_competition_proxy_v3` records **56.869 / 100**. It is a local proxy, not an official evaluator result. The largest remaining weakness is external-footprint intelligence (multi-source breadth, ratings/reviews, buzz, qualified sentiment, and freshness), so the next iteration should focus on a rights-compliant, independently verified external discovery/evidence benchmark.
-- **Canonical outputs:** The frozen submission artifacts under `out/` must not be overwritten during experiments. Use a fresh clone or isolated output directory for every benchmark.
-- **Large BRREG snapshots:** Stored with Git LFS.
+- **Latest completed code-test run:** [Run #16 — live smoke test + independent clean-clone reproducibility](https://github.com/mayuresh-1979/signalpost/actions/runs/38404792692) — **PASS** on code commit `96c25ba703b061f20d9b733e467a3c21ce7d876f`.
+- **Checks added in that run:** external-footprint freshness evaluator regression tests and deterministic external-discovery benchmark split tests both passed; both live 100-company smoke test and clean-clone reproducibility jobs passed.
+- **Live 100-company baseline (previous fully inspected run):** 100/100 inputs produced 100 profiles and 100 terminal envelopes; all IDs were unique and aligned; zero silent drops. Runtime was approximately 95 seconds, with 387 HTTP requests and about 7.57 MB transferred.
+- **Evidence audit baseline:** 621/621 available evidence records had valid URL, retrieval timestamp, and SHA-256. Of 21 website candidates, 8 passed the strict publication identity gate and 13 were quarantined.
+- **Builderr contract baseline:** 100 output rows validated; 4,334 claims and 621 evidence records; zero contract validation errors. These counts describe the earlier inspected run, not newly asserted artifact contents for Run #16.
+- **Artifact scope:** CI establishes the checks actually run, structural correctness and reproducibility; it is **not** an official Builderr score or human factual-accuracy certification.
+- **Local score diagnostic:** `signalpost_external_first_competition_proxy_v3` records **56.869 / 100**. It is a local proxy, not an official evaluator result. The largest remaining weakness is external-footprint intelligence (multi-source breadth, ratings/reviews, buzz, qualified sentiment, and freshness).
+- **External discovery:** deterministic development/validation cohort preparation is implemented and tested. No successful live external-discovery pilot or validation result is claimed yet. Follow [the external connector benchmark procedure](docs/external-connectors.md) and preserve the canonical outputs.
+- **Canonical outputs:** frozen submission artifacts under `out/` must not be overwritten during experiments. Use a fresh clone or isolated output directory for every benchmark.
+- **Large BRREG snapshots:** stored with Git LFS.
 
-**Submission caveat:** the evaluator-supplied one-command runner is reproducible on a clean clone. Official evaluation and the required qualification score remain unconfirmed. Do not describe the local proxy or smoke-test PASS as Builderr qualification.
+**Submission caveat:** the last completed code-test run passed on `96c25ba...`. Documentation commits made after that run are not themselves covered by Run #16; the final submission commit must have a fresh successful workflow run. Official evaluation and qualification remain unconfirmed. Do not describe the local proxy or smoke-test PASS as Builderr qualification.
+
+**Submission checklist:** see [`docs/submission-checklist.md`](docs/submission-checklist.md) for required materials, final gates, and the external-discovery pilot procedure.
 
 ## What the agent does
 
