@@ -60,6 +60,27 @@ validation cohort be queried. Do not use validation labels to tune thresholds.
 A prepared split manifest is not ground truth and does not prove the connector qualifies. A zero-network
 test of the split helper is not an external-discovery result.
 
+## Export a manual review queue
+
+After the development discovery command completes, export a review queue from its output without changing the source output:
+
+```bash
+uv run --locked python scripts/export_external_discovery_review.py \
+  --profiles out/external-discovery-pilot-20261013/development-discovered.jsonl \
+  --output out/external-discovery-pilot-20261013/development-review-queue.jsonl
+```
+
+The queue preserves every queried profile, including abstentions, so recall is not judged only on successful candidates. It includes the independent crawl URL, retrieval time, content hash, identity-gate decision and pending label fields. It does not copy search-result titles/snippets or create labels automatically. Review each row against the official registry and fetched page, then fill labels and source-rights notes in a separate reviewed copy. Keep the original queue unchanged.
+
+Run the review exporter regression test offline:
+
+```bash
+uv run --locked python -m unittest scripts/test_export_external_discovery_review.py
+```
+
+The queue is a manual-review aid, not a benchmark score or proof of connector quality. Do not run the held-out validation cohort until development labels have been adjudicated and the development gate passes.
+
+
 Production discovery gate:
 
 - at least 500 frozen organisations, including at least 200 verified site-exists positives, 150 hard
