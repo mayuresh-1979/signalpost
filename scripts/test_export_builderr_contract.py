@@ -17,6 +17,14 @@ class BuilderrContractExportTests(unittest.TestCase):
         self.assertEqual(MODULE.availability({"status": "not_fetched"}), "failed")
         self.assertEqual(MODULE.availability({"status": "not_found"}), "not_available")
 
+    def test_terminal_result_uses_challenge_six_state_vocabulary(self):
+        self.assertEqual(MODULE.result_status([{"availability": "available"}], "completed"), "available")
+        self.assertEqual(MODULE.result_status([{"availability": "blocked"}], "completed"), "blocked")
+        self.assertEqual(MODULE.result_status([{"availability": "ambiguous"}], "completed"), "ambiguous")
+        self.assertEqual(MODULE.result_status([{"availability": "not_applicable"}], "completed"), "not_applicable")
+        self.assertEqual(MODULE.result_status([{"availability": "not_available"}], "completed"), "not_available")
+        self.assertEqual(MODULE.result_status([{"availability": "available"}], "failed"), "failed")
+
     def test_source_class_prioritizes_official_registry(self):
         self.assertEqual(
             MODULE.source_class({"source_type": "official_company_registry"}),
@@ -83,6 +91,7 @@ class BuilderrContractExportTests(unittest.TestCase):
         }
         result = MODULE.build_result(envelope)
         address = next(c for c in result["claims"] if c["field"] == "company.business_address")
+        self.assertEqual(result["status"], "available")
         self.assertEqual(address["value"], {"street": "Main 1"})
         self.assertEqual(len(result["evidence"]), 2)
         self.assertEqual({e["source_class"] for e in result["evidence"]}, {"official_registry"})
