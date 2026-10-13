@@ -47,6 +47,7 @@ jobs:
           test "$(wc -l < out/smoke-test/input-100.jsonl)" -eq 100
 
       - name: Run the agent against live official/public sources
+        id: live_batch
         run: >-
           uv run --locked python scripts/run_competition_batch.py
           --organisations out/smoke-test/input-100.jsonl
@@ -71,6 +72,14 @@ jobs:
           out/smoke-test/profiles-100.jsonl
           out/smoke-test/envelopes-100.jsonl
           out/smoke-test/run-report-100.json
+
+      - name: Audit evidence provenance and entity identity
+        if: always() && steps.live_batch.outcome == 'success'
+        id: evidence_audit
+        run: >-
+          uv run --locked python scripts/audit_evidence_quality.py
+          out/smoke-test/profiles-100.jsonl
+          out/smoke-test/evidence-quality-report.json
 
       - name: Publish smoke-test evidence as workflow artifact
         if: always()
