@@ -57,16 +57,14 @@ jobs:
           head -n 100 entry-companies.jsonl > out/smoke-test/input-100.jsonl
           test "$(wc -l < out/smoke-test/input-100.jsonl)" -eq 100
 
-      - name: Run the agent against live official/public sources
+      - name: Run the one-command Builderr submission pipeline on live sources
         id: live_batch
         run: >-
-          uv run --locked python scripts/run_competition_batch.py
+          uv run --locked python scripts/run_builderr_submission.py
           --organisations out/smoke-test/input-100.jsonl
           --bulk brreg-enheter.csv
           --subunits-bulk brreg-underenheter.csv
-          --profiles-output out/smoke-test/profiles-100.jsonl
-          --output out/smoke-test/envelopes-100.jsonl
-          --report out/smoke-test/run-report-100.json
+          --output-dir out/smoke-test/wrapped
           --run-id smoke-100-${{ github.run_id }}
           --expected-count 100
           --workers 8
@@ -80,23 +78,23 @@ jobs:
         run: >-
           uv run --locked python scripts/validate_smoke_test.py
           out/smoke-test/input-100.jsonl
-          out/smoke-test/profiles-100.jsonl
-          out/smoke-test/envelopes-100.jsonl
-          out/smoke-test/run-report-100.json
+          out/smoke-test/wrapped/profiles.jsonl
+          out/smoke-test/wrapped/envelopes.jsonl
+          out/smoke-test/wrapped/run-report.json
 
       - name: Audit evidence provenance and entity identity
         if: always() && steps.live_batch.outcome == 'success'
         id: evidence_audit
         run: >-
           uv run --locked python scripts/audit_evidence_quality.py
-          out/smoke-test/profiles-100.jsonl
+          out/smoke-test/wrapped/profiles.jsonl
           out/smoke-test/evidence-quality-report.json
 
       - name: Export Builderr claims/evidence contract
         if: always() && steps.live_batch.outcome == 'success'
         run: >-
           uv run --locked python scripts/export_builderr_contract.py
-          out/smoke-test/envelopes-100.jsonl
+          out/smoke-test/wrapped/envelopes.jsonl
           --output out/smoke-test/builderr-output-100.jsonl
 
       - name: Validate Builderr output contract
