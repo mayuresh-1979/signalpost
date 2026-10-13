@@ -81,6 +81,19 @@ jobs:
           out/smoke-test/profiles-100.jsonl
           out/smoke-test/evidence-quality-report.json
 
+      - name: Export Builderr claims/evidence contract
+        if: always() && steps.live_batch.outcome == 'success'
+        run: >-
+          uv run --locked python scripts/export_builderr_contract.py
+          out/smoke-test/envelopes-100.jsonl
+          --output out/smoke-test/builderr-output-100.jsonl
+
+      - name: Validate Builderr output contract
+        if: always() && steps.live_batch.outcome == 'success'
+        run: >-
+          uv run --locked python scripts/validate_builderr_contract.py
+          out/smoke-test/builderr-output-100.jsonl
+
       - name: Publish smoke-test evidence as workflow artifact
         if: always()
         uses: actions/upload-artifact@v4
