@@ -4,17 +4,19 @@ This repository contains the Signalpost submission and reference agent for resea
 
 The public universe contains 411,160 eligible Norwegian companies. This repository includes a completed, deterministic 1,000-company corpus (`entry-companies.jsonl`, `out/profiles.jsonl`, `out/envelopes.jsonl`) and supports both 1,000-company batch reproduction and 100-company daily evaluation runs.
 
-## Submission Status
+## Verification Status
 
 - **Repository:** `mayuresh-1979/signalpost`
-- **Submission branch:** `master`
-- **Submission commit:** see the exact commit hash supplied with the Builderr submission; the repository is intentionally kept reproducible from a fixed Git commit.
-- **Independent clean-clone verification:** PASS
-- **Fresh-clone environment:** Python 3.13.11 + uv 0.12.17
-- **Fresh-clone smoke test:** PASS
-- **Fresh-clone audited test suites:** **178 / 178 passed**
-- **Frozen canonical output artifacts:** preserved unchanged in `out/`
-- **Large BRREG snapshots:** stored with Git LFS
+- **Branch:** `master`
+- **Latest verified live smoke-test commit:** `5e6146fa4bd898e1286cf854b654b5790637aa46`
+- **Live smoke test:** 100/100 companies processed; 100 profiles and 100 terminal envelopes; zero silent drops. [Run and logs](https://github.com/mayuresh-1979/signalpost/actions/runs/38291441221).
+- **Smoke-test scope:** verifies batch completeness, ID alignment, and internal terminal states. It is **not** an official Builderr score or a human factual-accuracy review.
+- **Historical clean-clone verification (September 28, 2026):** Python 3.13.11 + uv 0.12.17; 74/74 non-POC tests passed at commit `c4fe38ced197134eb1bef5e2610d370e7cf48410`. The older 178/178 result is a historical source-audit result, not a result from the latest live run.
+- **Evidence-quality audit:** added to CI; the first report will be published as a workflow artifact after the next live run.
+- **Frozen canonical output artifacts:** retained in `out/`; do not overwrite them during tests.
+- **Large BRREG snapshots:** stored with Git LFS.
+
+**Submission caveat:** the current live smoke test validates Signalpost's internal profile/envelope format. Before treating this revision as evaluator-ready, verify the final runner emits the full Builderr contract in `OUTPUT_CONTRACT.md` (including claims, evidence IDs, source dates, and the six required availability/terminal states) for the evaluator-supplied company batch.
 
 ## What the agent does
 
