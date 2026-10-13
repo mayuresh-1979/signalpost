@@ -5,6 +5,7 @@ Emit one JSON object per input organisation number.
 ```json
 {
   "organisation_number": "123456789",
+  "status": "available",
   "run": {
     "run_id": "2026-08-24-a",
     "started_at": "2026-08-24T06:00:00Z",
