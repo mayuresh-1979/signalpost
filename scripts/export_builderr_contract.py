@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -59,10 +58,9 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
     started = envelope.get("started_at")
     completed = envelope.get("completed_at")
     run_metrics = profile.get("run_metrics") or {}
-    try:
-        runtime_ms = max(0, int((datetime.fromisoformat(str(completed).replace("Z", "+00:00")) - datetime.fromisoformat(str(started).replace("Z", "+00:00"))).total_seconds() * 1000))
-    except (TypeError, ValueError):
-        runtime_ms = 0
+    # Per-company request latencies are recorded by the runner; total batch
+    # wall time is shared by parallel workers and must not be charged to each row.
+    runtime_ms = sum(int(x) for x in (run_metrics.get("latencies_ms") or []) if isinstance(x, (int, float)))
 
     claims: list[dict[str, Any]] = []
     evidence_rows: list[dict[str, Any]] = []
@@ -95,10 +93,10 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
         evidence_rows.append({
             "id": eid,
             "source_url": record.get("source_url"),
-            "source_class": source_class(record),
+            "source_class": ("company_owned" if module == "website" and ((value or {}).get("identity_assessment") or {}).get("publishable") is True else ("permitted_public_page" if module == "website" else source_class(record))),
             "retrieved_at": record.get("retrieved_at") or completed,
             "content_sha256": record.get("content_sha256"),
-            "claim_span": json.dumps(value, ensure_ascii=False, separators=(",", ":"))[:4000] if value is not None else str(record.get("note") or ""),
+            "claim_span": json.dumps(value, ensure_ascii=False, separators=(",", ":")) if value is not None else str(record.get("note") or ""),
         })
         emitted_evidence.add(eid)
         return eid
