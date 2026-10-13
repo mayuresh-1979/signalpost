@@ -7,17 +7,18 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 ## Verification Status
 
 - **Repository:** `mayuresh-1979/signalpost`
-- **Branch:** `master`
-- **Latest completed live smoke-test commit:** `0a947efa7124aa15f96738538f5441e4addca050` (exporter corrections included).
-- **Live smoke test:** 100/100 companies processed; 100 profiles and 100 terminal envelopes; zero silent drops. The Builderr export contained 4,334 claims and 621 evidence records, with 100/100 terminal result rows and no structural validator errors. [Run and artifacts](https://github.com/mayuresh-1979/signalpost/actions/runs/38399513177).
-- **Current HEAD change awaiting live verification:** adds a top-level six-state result status (`available`, `not_available`, `blocked`, `not_applicable`, `ambiguous`, `failed`) separately from run execution status; see the latest [Actions run](https://github.com/mayuresh-1979/signalpost/actions).
-- **Smoke-test scope:** verifies batch completeness, ID alignment, and internal terminal states. It is **not** an official Builderr score or a human factual-accuracy review.
-- **Historical clean-clone verification (September 28, 2026):** Python 3.13.11 + uv 0.12.17; 74/74 non-POC tests passed at commit `c4fe38ced197134eb1bef5e2610d370e7cf48410`. The older 178/178 result is a historical source-audit result, not a result from the latest live run.
-- **Evidence-quality audit:** PASS on commit `a90ddd4b807f74fec3d881e7ffff9b6fdee28674`; 621/621 available evidence records had URL, retrieval timestamp and SHA-256; zero structural identity/provenance issues. [Audit run and artifact](https://github.com/mayuresh-1979/signalpost/actions/runs/38394161524).
-- **Frozen canonical output artifacts:** retained in `out/`; do not overwrite them during tests.
-- **Large BRREG snapshots:** stored with Git LFS.
+- **Verified commit:** `637678c20a7670c991b1b95237865693fcdbe809`
+- **Latest workflow:** [Run #12 — live smoke test + independent clean-clone reproducibility](https://github.com/mayuresh-1979/signalpost/actions/runs/38401946912) — **PASS**.
+- **Fresh-clone verification:** Git cloned the exact commit into a separate directory; Git LFS restored both BRREG snapshots; `uv sync --locked`, exporter regression tests, and the full one-command 100-company pipeline passed.
+- **Live 100-company batch:** 100/100 inputs produced 100 profiles and 100 terminal envelopes; all IDs were unique and aligned; zero silent drops. Runtime was approximately 95 seconds, with 387 HTTP requests and about 7.57 MB transferred.
+- **Evidence audit:** 621/621 available evidence records had valid URL, retrieval timestamp, and SHA-256; zero structural provenance or identity issues. Of 21 website candidates, 8 passed the strict publication identity gate and 13 were quarantined.
+- **Builderr contract:** 100 output rows validated; 4,334 claims and 621 evidence records; zero contract validation errors. Unavailable and ambiguous claim values remain withheld.
+- **Artifact scope:** These checks establish structural correctness and reproducibility only. They are **not** an official Builderr score or a human factual-accuracy certification.
+- **Local score diagnostic:** `signalpost_external_first_competition_proxy_v3` records **56.869 / 100**. It is a local proxy, not an official evaluator result. The largest remaining weakness is external-footprint intelligence (multi-source breadth, ratings/reviews, buzz, qualified sentiment, and freshness), so the next iteration should focus on a rights-compliant, independently verified external discovery/evidence benchmark.
+- **Canonical outputs:** The frozen submission artifacts under `out/` must not be overwritten during experiments. Use a fresh clone or isolated output directory for every benchmark.
+- **Large BRREG snapshots:** Stored with Git LFS.
 
-**Submission caveat:** the live CI workflow now checks the internal batch, evidence provenance, and exported Builderr claims/evidence structure. `scripts/run_builderr_submission.py` provides one command for an evaluator-supplied batch. These are local structural checks, not an official Builderr score; the exact published harness and a clean-clone run at the final pinned commit must still be confirmed before claiming full evaluator readiness.
+**Submission caveat:** the evaluator-supplied one-command runner is reproducible on a clean clone. Official evaluation and the required qualification score remain unconfirmed. Do not describe the local proxy or smoke-test PASS as Builderr qualification.
 
 ## What the agent does
 
