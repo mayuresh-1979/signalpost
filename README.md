@@ -8,8 +8,9 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 
 - **Repository:** `mayuresh-1979/signalpost`
 - **Branch:** `master`
-- **Latest verified live smoke-test commit:** `5e6146fa4bd898e1286cf854b654b5790637aa46`
-- **Live smoke test:** 100/100 companies processed; 100 profiles and 100 terminal envelopes; zero silent drops. [Run and logs](https://github.com/mayuresh-1979/signalpost/actions/runs/38291441221).
+- **Latest completed live smoke-test commit:** `0a947efa7124aa15f96738538f5441e4addca050` (exporter corrections included).
+- **Live smoke test:** 100/100 companies processed; 100 profiles and 100 terminal envelopes; zero silent drops. The Builderr export contained 4,334 claims and 621 evidence records, with 100/100 terminal result rows and no structural validator errors. [Run and artifacts](https://github.com/mayuresh-1979/signalpost/actions/runs/38399513177).
+- **Terminal states:** exported rows include a top-level six-state result status (`available`, `not_available`, `blocked`, `not_applicable`, `ambiguous`, `failed`) separately from run execution status.
 - **Smoke-test scope:** verifies batch completeness, ID alignment, and internal terminal states. It is **not** an official Builderr score or a human factual-accuracy review.
 - **Historical clean-clone verification (September 28, 2026):** Python 3.13.11 + uv 0.12.17; 74/74 non-POC tests passed at commit `c4fe38ced197134eb1bef5e2610d370e7cf48410`. The older 178/178 result is a historical source-audit result, not a result from the latest live run.
 - **Evidence-quality audit:** PASS on commit `a90ddd4b807f74fec3d881e7ffff9b6fdee28674`; 621/621 available evidence records had URL, retrieval timestamp and SHA-256; zero structural identity/provenance issues. [Audit run and artifact](https://github.com/mayuresh-1979/signalpost/actions/runs/38394161524).
