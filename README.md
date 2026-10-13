@@ -12,11 +12,11 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 - **Live smoke test:** 100/100 companies processed; 100 profiles and 100 terminal envelopes; zero silent drops. [Run and logs](https://github.com/mayuresh-1979/signalpost/actions/runs/38291441221).
 - **Smoke-test scope:** verifies batch completeness, ID alignment, and internal terminal states. It is **not** an official Builderr score or a human factual-accuracy review.
 - **Historical clean-clone verification (September 28, 2026):** Python 3.13.11 + uv 0.12.17; 74/74 non-POC tests passed at commit `c4fe38ced197134eb1bef5e2610d370e7cf48410`. The older 178/178 result is a historical source-audit result, not a result from the latest live run.
-- **Evidence-quality audit:** added to CI; the first report will be published as a workflow artifact after the next live run.
+- **Evidence-quality audit:** PASS on commit `a90ddd4b807f74fec3d881e7ffff9b6fdee28674`; 621/621 available evidence records had URL, retrieval timestamp and SHA-256; zero structural identity/provenance issues. [Audit run and artifact](https://github.com/mayuresh-1979/signalpost/actions/runs/38394161524).
 - **Frozen canonical output artifacts:** retained in `out/`; do not overwrite them during tests.
 - **Large BRREG snapshots:** stored with Git LFS.
 
-**Submission caveat:** the current live smoke test validates Signalpost's internal profile/envelope format. Before treating this revision as evaluator-ready, verify the final runner emits the full Builderr contract in `OUTPUT_CONTRACT.md` (including claims, evidence IDs, source dates, and the six required availability/terminal states) for the evaluator-supplied company batch.
+**Submission caveat:** the current live smoke test validates Signalpost's internal profile/envelope format. `scripts/export_builderr_contract.py` and `scripts/validate_builderr_contract.py` now export and validate the Builderr claims/evidence shape; their first live CI run is in progress. Do not claim evaluator readiness until that validation passes and the final command is reproducible on an evaluator-supplied batch.
 
 ## What the agent does
 
