@@ -41,4 +41,4 @@ Emit one JSON object per input organisation number.
 }
 ```
 
-Allowed availability states are `available`, `not_available`, `blocked`, `not_applicable`, `ambiguous` and `failed`. A checked source that has zero jobs or zero locations is different from a source that was not checked.
+The top-level `status` and each claim's `availability` use `available`, `not_available`, `blocked`, `not_applicable`, `ambiguous` or `failed`. The nested `run.terminal_status` describes execution (`completed` or `failed`). A checked source that has zero jobs or zero locations is different from a source that was not checked.
