@@ -21,6 +21,86 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+
+  clean-clone-reproducibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Clone exact tested commit into an independent directory
+        env:
+          REPOSITORY: ${{ github.repository }}
+          TARGET_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          git clone "https://github.com/${REPOSITORY}.git" clean-clone
+          git -C clean-clone checkout --detach "${TARGET_SHA}"
+          git -C clean-clone lfs pull
+          test "$(git -C clean-clone rev-parse HEAD)" = "${TARGET_SHA}"
+          test -s clean-clone/brreg-enheter.csv
+          test -s clean-clone/brreg-underenheter.csv
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.12.17"
+          enable-cache: false
+
+      - name: Install locked dependencies from the clean clone
+        working-directory: clean-clone
+        run: uv sync --locked
+
+      - name: Run exporter regression tests from the clean clone
+        working-directory: clean-clone
+        run: uv run --locked python -m unittest scripts/test_export_builderr_contract.py
+
+      - name: Create isolated 100-company batch
+        working-directory: clean-clone
+        shell: bash
+        run: |
+          mkdir -p out/clean-clone
+          head -n 100 entry-companies.jsonl > out/clean-clone/input-100.jsonl
+          test "$(wc -l < out/clean-clone/input-100.jsonl)" -eq 100
+
+      - name: Run the full one-command pipeline from the clean clone
+        working-directory: clean-clone
+        run: >-
+          uv run --locked python scripts/run_builderr_submission.py
+          --organisations out/clean-clone/input-100.jsonl
+          --bulk brreg-enheter.csv
+          --subunits-bulk brreg-underenheter.csv
+          --output-dir out/clean-clone/wrapped
+          --run-id clean-clone-100-${{ github.run_id }}
+          --expected-count 100
+          --workers 8
+
+      - name: Validate clean-clone batch completeness and provenance
+        working-directory: clean-clone
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: >-
+          uv run --locked python scripts/validate_smoke_test.py
+          out/clean-clone/input-100.jsonl
+          out/clean-clone/wrapped/profiles.jsonl
+          out/clean-clone/wrapped/envelopes.jsonl
+          out/clean-clone/wrapped/run-report.json
+
+      - name: Upload clean-clone reproducibility evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signalpost-clean-clone-reproducibility-${{ github.run_id }}
+          path: clean-clone/out/clean-clone/
+          if-no-files-found: warn
+          retention-days: 30
+
   smoke-test:
     runs-on: ubuntu-latest
     timeout-minutes: 35
