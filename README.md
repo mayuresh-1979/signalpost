@@ -16,7 +16,7 @@ The public universe contains 411,160 eligible Norwegian companies. This reposito
 - **Frozen canonical output artifacts:** retained in `out/`; do not overwrite them during tests.
 - **Large BRREG snapshots:** stored with Git LFS.
 
-**Submission caveat:** the current live smoke test validates Signalpost's internal profile/envelope format. `scripts/export_builderr_contract.py` and `scripts/validate_builderr_contract.py` now export and validate the Builderr claims/evidence shape; their first live CI run is in progress. Do not claim evaluator readiness until that validation passes and the final command is reproducible on an evaluator-supplied batch.
+**Submission caveat:** the live CI workflow now checks the internal batch, evidence provenance, and exported Builderr claims/evidence structure. `scripts/run_builderr_submission.py` provides one command for an evaluator-supplied batch. These are local structural checks, not an official Builderr score; the exact published harness and a clean-clone run at the final pinned commit must still be confirmed before claiming full evaluator readiness.
 
 ## What the agent does
 
@@ -76,7 +76,17 @@ uv run python scripts/run_competition_batch.py --organisations entry-companies.j
 uv run python scripts/run_competition_batch.py --organisations <batch-100.jsonl> --bulk brreg-enheter.csv --subunits-bulk brreg-underenheter.csv --profiles-output out/eval-100-profiles.jsonl --output out/eval-100-envelopes.jsonl --report out/eval-100-report.json --run-id eval-100 --expected-count 100
 ```
 
-### 3. Deterministic refresh / material-change replay
+### 3. One-command Builderr submission run
+
+Use the evaluator-supplied input file and its exact row count. This command runs the agent, audits evidence provenance, exports the Builderr contract, and validates the output. It does not use precomputed profiles as evaluation answers.
+
+```bash
+uv run --locked python scripts/run_builderr_submission.py --organisations <evaluator-batch.jsonl> --expected-count <N> --run-id builderr-official-001 --bulk brreg-enheter.csv --subunits-bulk brreg-underenheter.csv --output-dir out/builderr-run --workers 8
+```
+
+The final machine-readable contract is written to `out/builderr-run/builderr-output.jsonl`. A local PASS is not an official Builderr score.
+
+### 4. Deterministic refresh / material-change replay
 
 ```bash
 uv run python scripts/run_refresh_replay.py --manifest tests/fixtures/refresh-snapshots.json --output out/refresh-test.json
