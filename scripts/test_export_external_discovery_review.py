@@ -11,7 +11,7 @@ class ExternalDiscoveryReviewExportTests(unittest.TestCase):
     def test_exports_pending_review_and_does_not_copy_raw_search_text(self):
         rows = [profile("123456789", {
             "website_discovery": {
-                "status": "available",
+                "status": "not_found",
                 "value": {
                     "candidate_count": 3,
                     "selected_for_independent_crawl": True,
@@ -35,9 +35,23 @@ class ExternalDiscoveryReviewExportTests(unittest.TestCase):
         self.assertEqual(result["reviewer_decision"], "pending")
         self.assertIsNone(result["exact_entity"])
         self.assertEqual(result["search_candidate_count"], 3)
+        self.assertFalse(result["identity_gate_publishable"])
         self.assertFalse(result["raw_search_results_persisted"])
         self.assertNotIn("raw_title", result)
         self.assertNotIn("raw_snippet", result)
+
+    def test_identity_gate_acceptance_comes_from_discovery_evidence(self):
+        result = review_rows([profile("123456789", {
+            "website_discovery": {
+                "status": "available",
+                "value": {"candidate_count": 1, "selected_for_independent_crawl": True},
+            },
+            "website_discovered": {
+                "status": "available",
+                "source_url": "https://company.example/",
+            },
+        })])[0]
+        self.assertTrue(result["identity_gate_publishable"])
 
     def test_preserves_abstention_for_recall_review(self):
         result = review_rows([profile("123456789")])[0]
