@@ -22,14 +22,29 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
     tmp.replace(path)
 
 
+PROVENANCE_KEYS = {"source_url", "source_type", "source_class", "retrieved_at", "content_sha256"}
+
+
+def clean_claim_value(value: Any) -> Any:
+    """Remove acquisition metadata from the fact value while retaining the evidence separately."""
+    if isinstance(value, dict):
+        return {key: clean_claim_value(item) for key, item in value.items() if key not in PROVENANCE_KEYS}
+    if isinstance(value, list):
+        return [clean_claim_value(item) for item in value]
+    return value
+
+
 def availability(record: dict[str, Any] | None) -> str:
     if not record:
         return "failed"
     status = record.get("status")
     if status == "available":
         return "available"
-    if status in {"not_found", "not_fetched", "not_available"}:
+    if status in {"not_found", "not_available"}:
         return "not_available"
+    if status == "not_fetched":
+        # Not fetched is not evidence of absence. Preserve it as a failed lookup.
+        return "failed"
     if status == "not_applicable":
         return "not_applicable"
     if status == "blocked":
@@ -40,11 +55,13 @@ def availability(record: dict[str, Any] | None) -> str:
 
 
 def source_class(record: dict[str, Any]) -> str:
-    raw = str(record.get("source_class") or record.get("source_type") or "public_source")
-    if "company" in raw or "website" in raw:
-        return "company_owned"
+    raw = str(record.get("source_class") or record.get("source_type") or "public_source").lower()
+    # Test official/registry signals before generic "company" so official_company_registry
+    # cannot be mislabeled as a company-owned source.
     if "official" in raw or "registry" in raw or "brreg" in raw:
         return "official_registry"
+    if "company" in raw or "website" in raw:
+        return "company_owned"
     if "public" in raw:
         return "permitted_public_page"
     return raw
@@ -71,7 +88,7 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
                   confidence: float = 0.99, context: dict[str, Any] | None = None) -> None:
         claim = {
             "field": field,
-            "value": value if state == "available" else None,
+            "value": clean_claim_value(value) if state == "available" else None,
             "availability": state,
             "confidence": confidence if state == "available" else 0.0,
             "evidence_ids": [evidence_id] if evidence_id else [],
