@@ -59,8 +59,8 @@ def review_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "crawl_source_type": discovered.get("source_type"),
             "retrieved_at": discovered.get("retrieved_at"),
             "content_sha256": discovered.get("content_sha256"),
-            "identity_gate_publishable": value.get("publishable"),
-            "identity_gate_reason": value.get("identity_gate_reason") or value.get("identity_reason"),
+            "identity_gate_publishable": discovery.get("status") == "available",
+            "identity_gate_reason": "accepted_by_identity_gate" if discovery.get("status") == "available" else ("not_accepted_or_not_found" if discovery else "no_discovery_record"),
             "search_candidate_count": (discovery.get("value") or {}).get("candidate_count")
             if isinstance(discovery.get("value"), dict) else None,
             "selected_for_independent_crawl": (discovery.get("value") or {}).get("selected_for_independent_crawl")
