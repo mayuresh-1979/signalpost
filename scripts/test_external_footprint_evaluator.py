@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from scripts.evaluate_external_footprint import is_fresh
+from scripts.evaluate_external_footprint import has_minimum_audit, is_fresh
 
 
 class ExternalFootprintFreshnessTests(unittest.TestCase):
@@ -20,6 +20,17 @@ class ExternalFootprintFreshnessTests(unittest.TestCase):
     def test_missing_or_invalid_effective_date_is_not_fresh(self):
         self.assertFalse(is_fresh(None, self.as_of))
         self.assertFalse(is_fresh("not-a-date", self.as_of))
+
+    def test_audit_gate_counts_matched_observations_not_label_rows(self):
+        self.assertTrue(has_minimum_audit(100, 100))
+        self.assertFalse(has_minimum_audit(1, 100))
+        self.assertFalse(has_minimum_audit(0, 100))
+
+    def test_invalid_audit_gate_arguments_are_rejected(self):
+        with self.assertRaises(ValueError):
+            has_minimum_audit(-1, 100)
+        with self.assertRaises(ValueError):
+            has_minimum_audit(100, 0)
 
     def test_naive_evaluation_timestamp_is_rejected(self):
         with self.assertRaises(ValueError):
