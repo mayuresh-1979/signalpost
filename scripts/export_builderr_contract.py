@@ -67,6 +67,24 @@ def source_class(record: dict[str, Any]) -> str:
     return raw
 
 
+def result_status(claims: list[dict[str, Any]], terminal_status: str) -> str:
+    """Emit the challenge's six-state terminal result status separately from run completion."""
+    if terminal_status == "failed":
+        return "failed"
+    states = [str(claim.get("availability") or "failed") for claim in claims]
+    if "available" in states:
+        return "available"
+    if "blocked" in states:
+        return "blocked"
+    if "ambiguous" in states:
+        return "ambiguous"
+    if states and all(state == "not_applicable" for state in states):
+        return "not_applicable"
+    if "failed" in states:
+        return "failed"
+    return "not_available"
+
+
 def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
     org = str(envelope.get("organisation_number") or "")
     profile = envelope.get("profile") or {}
@@ -266,6 +284,7 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "organisation_number": org,
+        "status": result_status(claims, terminal),
         "run": {
             "run_id": run_id,
             "started_at": started,
