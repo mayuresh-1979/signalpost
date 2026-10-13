@@ -28,6 +28,13 @@ def ratio(numerator: int, denominator: int) -> float:
     return numerator / denominator if denominator else 0.0
 
 
+def has_minimum_audit(audited_count: int, minimum_audit: int) -> bool:
+    """Require the minimum number of observations to be actually label-matched."""
+    if audited_count < 0 or minimum_audit < 1:
+        raise ValueError("audited_count must be non-negative and minimum_audit must be positive")
+    return audited_count >= minimum_audit
+
+
 def is_fresh(effective_at: str | None, as_of: datetime, freshness_days: int = 45) -> bool:
     """Return whether an explicitly dated observation is fresh at the selected evaluation time."""
     observed_at = _as_datetime(effective_at)
@@ -56,14 +63,13 @@ def main() -> None:
     observations = read_jsonl(Path(args.observations))
     label_rows = read_jsonl(Path(args.labels))
     labels = {str(item["id"]): item for item in label_rows}
-    if len(labels) < args.minimum_audit:
-        audit_size_gate = False
-    else:
-        audit_size_gate = True
+    if args.minimum_audit < 1:
+        raise SystemExit("--minimum-audit must be positive")
     if len(labels) != len(label_rows):
         raise ValueError("Label IDs must be unique")
 
     audited = [item for item in observations if str(item.get("id")) in labels]
+    audit_size_gate = has_minimum_audit(len(audited), args.minimum_audit)
     published = [item for item in audited if publishable_observation(item)]
     wrong_entity = sum(not labels[str(item["id"])].get("exact_entity", False) for item in published)
     wrong_metric = sum(not labels[str(item["id"])].get("metric_correct", False) for item in published)
