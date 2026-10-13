@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +59,10 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
     started = envelope.get("started_at")
     completed = envelope.get("completed_at")
     run_metrics = profile.get("run_metrics") or {}
+    try:
+        runtime_ms = max(0, int((datetime.fromisoformat(str(completed).replace("Z", "+00:00")) - datetime.fromisoformat(str(started).replace("Z", "+00:00"))).total_seconds() * 1000))
+    except (TypeError, ValueError):
+        runtime_ms = 0
 
     claims: list[dict[str, Any]] = []
     evidence_rows: list[dict[str, Any]] = []
@@ -258,7 +263,7 @@ def build_result(envelope: dict[str, Any]) -> dict[str, Any]:
         "errors": errors,
         "operations": {
             "requests": int(run_metrics.get("requests") or 0),
-            "runtime_ms": 0,
+            "runtime_ms": runtime_ms,
             "third_party_cost_usd": 0.0,
         },
     }
