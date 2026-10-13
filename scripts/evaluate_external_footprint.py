@@ -28,6 +28,17 @@ def ratio(numerator: int, denominator: int) -> float:
     return numerator / denominator if denominator else 0.0
 
 
+def is_fresh(effective_at: str | None, as_of: datetime, freshness_days: int = 45) -> bool:
+    """Return whether an explicitly dated observation is fresh at the selected evaluation time."""
+    observed_at = _as_datetime(effective_at)
+    if observed_at is None:
+        return False
+    if as_of.tzinfo is None:
+        raise ValueError("as_of must be timezone-aware")
+    delta_seconds = (as_of - observed_at).total_seconds()
+    return 0 <= delta_seconds <= freshness_days * 86_400
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate frozen external-footprint observations and exact-entity labels.")
     parser.add_argument("--profiles", required=True)
@@ -35,6 +46,10 @@ def main() -> None:
     parser.add_argument("--labels", required=True, help="JSONL: id, exact_entity, metric_correct, sentiment_correct")
     parser.add_argument("--output", required=True)
     parser.add_argument("--minimum-audit", type=int, default=100)
+    parser.add_argument(
+        "--as-of",
+        help="Evaluation timestamp in ISO-8601 format (UTC recommended). Defaults to current UTC time.",
+    )
     args = parser.parse_args()
 
     profiles = read_jsonl(Path(args.profiles))
@@ -61,8 +76,11 @@ def main() -> None:
     org_platforms: dict[str, set[str]] = defaultdict(set)
     org_signals: dict[str, set[str]] = defaultdict(set)
     fresh_orgs: set[str] = set()
-    as_of = datetime(2026, 9, 24, tzinfo=timezone.utc)
-    freshness_seconds = 45 * 86_400
+    as_of = _as_datetime(args.as_of) if args.as_of else datetime.now(timezone.utc)
+    if as_of is None:
+        raise SystemExit("--as-of must be a valid ISO-8601 date or timestamp")
+    if as_of.tzinfo is None:
+        as_of = as_of.replace(tzinfo=timezone.utc)
 
     for item in accepted_all:
         org = str(item["organisation_number"])
@@ -70,11 +88,8 @@ def main() -> None:
             continue
         org_platforms[org].add(str(item["platform"]))
         org_signals[org].add(str(item["signal_type"]))
-        date_str = item.get("effective_at")
-        if date_str:
-            dt = _as_datetime(date_str)
-            if dt and 0 <= (as_of - dt).total_seconds() <= freshness_seconds:
-                fresh_orgs.add(org)
+        if is_fresh(item.get("effective_at"), as_of):
+            fresh_orgs.add(org)
 
     fresh_coverage = ratio(len(fresh_orgs & all_orgs), len(all_orgs))
     coverage = {
@@ -112,6 +127,8 @@ def main() -> None:
         "claim_boundary": "Held-out observation audit plus full-corpus coverage; it does not validate an unlabelled connector.",
         "profiles": len(profiles),
         "observations": len(observations),
+        "evaluation_as_of": as_of.isoformat(),
+        "freshness_window_days": 45,
         "audited_observations": len(audited),
         "published_audited": len(published),
         "wrong_entity_publications": wrong_entity,
