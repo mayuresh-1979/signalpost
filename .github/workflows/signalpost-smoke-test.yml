@@ -20,6 +20,8 @@ on:
       - "scripts/test_external_footprint_evaluator.py"
       - "scripts/prepare_external_discovery_benchmark.py"
       - "scripts/test_prepare_external_discovery_benchmark.py"
+      - "scripts/export_external_discovery_review.py"
+      - "scripts/test_export_external_discovery_review.py"
 
 permissions:
   contents: read
@@ -140,6 +142,9 @@ jobs:
 
       - name: Test deterministic external discovery benchmark splits
         run: uv run --locked python -m unittest scripts/test_prepare_external_discovery_benchmark.py
+
+      - name: Test external discovery review export
+        run: uv run --locked python -m unittest scripts/test_export_external_discovery_review.py
 
       - name: Check submission runner interface
         run: uv run --locked python scripts/run_builderr_submission.py --help
