@@ -28,6 +28,8 @@ def main() -> int:
         if org in seen:
             errors.append(f"row {i}: duplicate organisation_number {org}")
         seen.add(org)
+        if row.get("status") not in ALLOWED:
+            errors.append(f"row {i}: invalid top-level terminal status")
         for key in ("run", "claims", "evidence", "changes", "errors", "operations"):
             if key not in row:
                 errors.append(f"row {i}: missing {key}")
