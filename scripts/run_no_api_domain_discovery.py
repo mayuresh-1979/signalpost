@@ -8,7 +8,6 @@ a guessed domain into canonical website evidence automatically.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
