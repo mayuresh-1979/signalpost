@@ -163,11 +163,12 @@ def main() -> None:
             "selected_for_manual_review": accepted is not None,
             "automatic_promotion": False,
         }
+        discovery_source_url = (accepted or first_fetch or {}).get("source_url") or "https://data.brreg.no/enhetsregisteret/api/enheter"
         row.setdefault("evidence", {})["website_discovery"] = evidence(
             "website_discovery",
             "available" if accepted else "not_found",
             "no_api_guessed_domain_then_independent_crawl",
-            "https://data.brreg.no/enhetsregisteret/api/enheter",
+            discovery_source_url,
             value=summary,
             note=(
                 "A strict guessed-domain identity gate passed; candidate remains review-only and is not promoted."
