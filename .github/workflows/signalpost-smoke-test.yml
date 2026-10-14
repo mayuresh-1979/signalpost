@@ -10,6 +10,7 @@ on:
       - "docs/submission-checklist.md"
       - "docs/external-discovery-review-template.md"
       - "docs/external-connectors.md"
+      - "docs/no-paid-api-discovery.md"
       - "scripts/validate_smoke_test.py"
       - "scripts/audit_evidence_quality.py"
       - "scripts/export_builderr_contract.py"
@@ -22,6 +23,8 @@ on:
       - "scripts/test_prepare_external_discovery_benchmark.py"
       - "scripts/export_external_discovery_review.py"
       - "scripts/test_export_external_discovery_review.py"
+      - "scripts/run_no_api_domain_discovery.py"
+      - "scripts/test_no_api_domain_discovery.py"
 
 permissions:
   contents: read
@@ -145,6 +148,9 @@ jobs:
 
       - name: Test external discovery review export
         run: uv run --locked python -m unittest scripts/test_export_external_discovery_review.py
+
+      - name: Test no-paid-API domain discovery
+        run: uv run --locked python -m unittest scripts/test_no_api_domain_discovery.py
 
       - name: Check submission runner interface
         run: uv run --locked python scripts/run_builderr_submission.py --help
