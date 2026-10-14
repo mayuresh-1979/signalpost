@@ -25,6 +25,10 @@ is [closed to new customers and scheduled to discontinue on 1 January 2027](http
 Serper and Tavily can be evaluated as declared alternatives only after their storage, source, and crawling
 rights are accepted for this use.
 
+## No-paid-API alternative
+
+A bounded direct-domain-guess pilot is available in [`docs/no-paid-api-discovery.md`](no-paid-api-discovery.md). It does not call a search provider, tries at most three deterministic domain guesses per company, uses the existing robots-aware fetcher and strict guessed-domain identity gate, and never auto-promotes a result. This approach is experimental and may have low recall; it is not equivalent to a search API.
+
 ## Reproducible discovery benchmark procedure
 
 The helper `scripts/prepare_external_discovery_benchmark.py` creates stable, non-overlapping
